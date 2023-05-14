@@ -1,95 +1,103 @@
-import Image from 'next/image'
+import { useEffect, useRef } from 'react';
 import styles from './page.module.css'
+import cytoscape from 'cytoscape';
+import Editor from '@monaco-editor/react';
+import { cytoscapeDummyElements, cytoscapeStackMain, cytoscapeStackPush, cytoscapeStackPop, cytoscapeStyles, cytoscapeStackStyles } from './cytoscapeConfig';
+
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
+    const [defaultValue, setDefaultValue] = useState("");
+    const cyRef = useRef(null);
+
+    useEffect(() => {
+        fetch('app/defaultCode.txt')
+            .then(response => response.text())
+            .then(text => {
+                setDefaultValue(text);
+            });
+
+        cyRef.current = cytoscape({
+            container: document.getElementById('cy'),
+            style: cytoscapeStyles,
+            elements: cytoscapeDummyElements,
+        });
+
+        cyRef.current.style(cytoscapeStyles);
+        cyRef.current.layout({ name: 'cose' }).run();
+
+        document.getElementById('node-selector').addEventListener('change', function (event) {
+            var selectedOption = event.target.value;
+
+            // Clear the current elements in the cytoscape instance
+            cy.elements().remove();
+
+            // Based on the selected option, add new nodes and edges
+            if (selectedOption === 'main') {
+                cy.add(cytoscapeStackMain);
+                cy.style(cytoscapeStyles);
+                cy.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements  
+            } else if (selectedOption === 'push') {
+                cy.add(cytoscapeStackPush);
+                cy.style(cytoscapeStackStyles);
+            } else if (selectedOption === 'pop') {
+                cy.add(cytoscapeStackPop);
+                cy.style(cytoscapeStackStyles);
+            }
+
+            // ... und so weiter für jede Option
+        });
+    }, []);
+
+    function handleEditorDidMount(editor, monaco) {
+        editor.onDidChangeModelContent(() => {
+            const code = editor.getValue();
+            // Use the Langium parser here to generate the AST from the code
+            // Then update the Cytoscape canvas with the new AST data
+        });
+    }
+
+    return (
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="container-fluid">
+                    <a className="navbar-brand" href="#">ProofVisualization</a>
+                    <div className="collapse navbar-collapse">
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Documentation</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Showcase</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Playground</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">GitLab</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div className="container-fluid"></div>
+            <div id="main" className="row">
+                <Editor
+                    height="90vh"
+                    defaultLanguage="c"
+                    defaultValue={defaultValue}
+                    theme="vs-dark"
+                    onMount={handleEditorDidMount}
+                />
+                <div id="cy-container">
+                    <select id="node-selector">
+                        <option value="main">Main</option>
+                        <option value="push">Push2(s,v1,v2)</option>
+                        <option value="pop">Pop()</option>
+                    </select>
+                    <div id="cy" ref={cyContainer}></div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    );
 }
