@@ -1,4 +1,5 @@
-// Enter your C code with Verifast annotations here...
+export const defaultCode = 
+`// Enter your C code with Verifast annotations here...
         #include "stdlib.h"
         #include "assert.h"
         
@@ -147,4 +148,4 @@
             pop2(s);
             pop2(s);
             pop(s);
-        }
+        }`;        

@@ -1,20 +1,17 @@
-import { useEffect, useRef } from 'react';
+'use client'
+import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
+import { useEffect, useState, useRef } from 'react';
 import styles from './page.module.css'
 import cytoscape from 'cytoscape';
 import Editor from '@monaco-editor/react';
 import { cytoscapeDummyElements, cytoscapeStackMain, cytoscapeStackPush, cytoscapeStackPop, cytoscapeStyles, cytoscapeStackStyles } from './cytoscapeConfig';
+import { defaultCode } from "./defaultCode";
 
 
 export default function Home() {
-    const [defaultValue, setDefaultValue] = useState("");
     const cyRef = useRef(null);
 
     useEffect(() => {
-        fetch('app/defaultCode.txt')
-            .then(response => response.text())
-            .then(text => {
-                setDefaultValue(text);
-            });
 
         cyRef.current = cytoscape({
             container: document.getElementById('cy'),
@@ -29,19 +26,19 @@ export default function Home() {
             var selectedOption = event.target.value;
 
             // Clear the current elements in the cytoscape instance
-            cy.elements().remove();
+            cyRef.current.elements().remove();
 
             // Based on the selected option, add new nodes and edges
             if (selectedOption === 'main') {
-                cy.add(cytoscapeStackMain);
-                cy.style(cytoscapeStyles);
-                cy.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements  
+                cyRef.current.add(cytoscapeStackMain);
+                cyRef.current.style(cytoscapeStyles);
+                cyRef.current.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements  
             } else if (selectedOption === 'push') {
-                cy.add(cytoscapeStackPush);
-                cy.style(cytoscapeStackStyles);
+                cyRef.current.add(cytoscapeStackPush);
+                cyRef.current.style(cytoscapeStackStyles);
             } else if (selectedOption === 'pop') {
-                cy.add(cytoscapeStackPop);
-                cy.style(cytoscapeStackStyles);
+                cyRef.current.add(cytoscapeStackPop);
+                cyRef.current.style(cytoscapeStackStyles);
             }
 
             // ... und so weiter für jede Option
@@ -58,6 +55,7 @@ export default function Home() {
 
     return (
         <div>
+
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">ProofVisualization</a>
@@ -79,25 +77,31 @@ export default function Home() {
                     </div>
                 </div>
             </nav>
-            <div className="container-fluid"></div>
-            <div id="main" className="row">
-                <Editor
-                    height="90vh"
-                    defaultLanguage="c"
-                    defaultValue={defaultValue}
-                    theme="vs-dark"
-                    onMount={handleEditorDidMount}
-                />
-                <div id="cy-container">
-                    <select id="node-selector">
-                        <option value="main">Main</option>
-                        <option value="push">Push2(s,v1,v2)</option>
-                        <option value="pop">Pop()</option>
-                    </select>
-                    <div id="cy" ref={cyContainer}></div>
+            <main className={styles.main}>
+                <div className="row">
+                     
+                        <div id="editor" className={styles.editor} >
+                            <Editor
+                                defaultLanguage="c"
+                                defaultValue={defaultCode}
+                                theme="vs-dark"
+                                onMount={handleEditorDidMount}
+                            />
+                        </div>
+                    
+                    
+                    <div id="cy-container" className={styles.cyContainer} >
+                        <select className={styles.nodeSelector} id="node-selector">
+                            <option value="main">Main</option>
+                            <option value="push">Push2(s,v1,v2)</option>
+                            <option value="pop">Pop()</option>
+                        </select>
+                        <div className={styles.cy} id="cy" ref={cyRef}></div>
+                    
                 </div>
-            </div>
         </div>
+        </main >
+        </div >
 
     );
 }
