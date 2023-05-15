@@ -4,22 +4,24 @@ import { useEffect, useState, useRef } from 'react';
 import styles from './page.module.css'
 import cytoscape from 'cytoscape';
 import Editor from '@monaco-editor/react';
-import { cytoscapeDummyElements, cytoscapeStackMain, cytoscapeStackPush, cytoscapeStackPop, cytoscapeStyles, cytoscapeStackStyles } from './cytoscapeConfig';
+import { cytoscapeDummyElements, cytoscapeStackMain, cytoscapeStackPush, cytoscapeStackPop, cytoscapeStyles, cytoscapeStackStyles, sbgnStyleSheet } from './cytoscapeConfig';
 import { defaultCode } from "./defaultCode";
+//import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 
 
 export default function Home() {
     const cyRef = useRef(null);
+    var sbgnStylesheet = require('cytoscape-sbgn-stylesheet');
 
     useEffect(() => {
 
         cyRef.current = cytoscape({
             container: document.getElementById('cy'),
-            style: cytoscapeStyles,
+            style: sbgnStyleSheet,
             elements: cytoscapeDummyElements,
         });
 
-        cyRef.current.style(cytoscapeStyles);
+        cyRef.current.style(sbgnStylesheet);
         cyRef.current.layout({ name: 'cose' }).run();
 
         document.getElementById('node-selector').addEventListener('change', function (event) {
@@ -31,14 +33,14 @@ export default function Home() {
             // Based on the selected option, add new nodes and edges
             if (selectedOption === 'main') {
                 cyRef.current.add(cytoscapeStackMain);
-                cyRef.current.style(cytoscapeStyles);
+                cyRef.current.style(sbgnStyleSheet);
                 cyRef.current.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements  
             } else if (selectedOption === 'push') {
                 cyRef.current.add(cytoscapeStackPush);
-                cyRef.current.style(cytoscapeStackStyles);
+                cyRef.current.style(sbgnStyleSheet);
             } else if (selectedOption === 'pop') {
                 cyRef.current.add(cytoscapeStackPop);
-                cyRef.current.style(cytoscapeStackStyles);
+                cyRef.current.style(cytoscapeStackStyles);                
             }
 
             // ... und so weiter für jede Option
