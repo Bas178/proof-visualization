@@ -36,8 +36,8 @@ export const cytoscapeStackMain = [
 ];
 
 export const cytoscapeStackPush = [{
-  data: { id: "stack", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
-  position: { x: 60, y: 110 },
+  data: { id: "stack", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  position: { x: 0, y: 0 },
   group: "nodes",
   removed: false,
   selected: false,
@@ -48,8 +48,8 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "stack-name", class: "macromolecule", label: "s:stack", parent: "stack", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
-  position: { x: 1038.2473300230395, y: 496.5128559182721 },
+  data: { id: "stack-name", class: "macromolecule", label: "s:stack", parent: "stack", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 } },
+  position: { x: 0.2473300230395, y: 0.5128559182721 },
   group: "nodes",
   removed: false,
   selected: false,
@@ -60,7 +60,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "node", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: 'orange' },
   position: { x: 340, y: 50 },
   group: "nodes",
   removed: false,
@@ -73,7 +73,7 @@ export const cytoscapeStackPush = [{
 },
 {
   data: { id: "node-name", class: "macromolecule", label: "?h:node", parent: "node", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
-  position: { x: 1038.2473300230395, y: 496.5128559182721 },
+  position: { x: 340.0, y: 50.0 },
   group: "nodes",
   removed: false,
   selected: false,
@@ -85,7 +85,7 @@ export const cytoscapeStackPush = [{
 },
 {
   data: { id: "node0", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
-  position: { x: 340, y: 50 },
+  position: { x: 10, y: 250 },
   group: "nodes",
   removed: false,
   selected: false,
@@ -96,8 +96,32 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node0-name", class: "macromolecule", label: "?h:node", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
-  position: { x: 1038.2473300230395, y: 496.5128559182721 },
+  data: { id: "node0-name", class: "macromolecule", label: "?n0:node", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  position: { x: 10.0, y: 250.0 },
+  group: "nodes",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: false,
+  pannable: false,
+  classes: ""
+},
+{
+  data: { id: "node0-var", class: "phenotype", label: "value=v2", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  position: { x: 10.0, y: 350.0 },
+  group: "nodes",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: false,
+  pannable: false,
+  classes: ""
+},
+{
+  data: { id: "node1", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  position: { x: 340, y: 280 },
   group: "nodes",
   removed: false,
   selected: false,
@@ -108,23 +132,153 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node0-var", class: "phenotype", label: "?h:node", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
-  position: { x: 1038.2473300230395, y: 496.5128559182721 },
+  data: { id: "node1-name", class: "macromolecule", label: "?n:node", parent: "node1", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  position: { x: 340, y: 280 },
   group: "nodes",
   removed: false,
   selected: false,
   selectable: true,
   locked: false,
-  grabbable: true,
+  grabbable: false,
   pannable: false,
   classes: ""
 },
-{ data: { id: 'node0', label: '?n0:node', variables: 'value=v2', color: 'green' }, classes: 'node0', position: { x: 120, y: 270 } },
-{ data: { id: 'node1', label: '?n:node', variables: 'value=v1', color: 'green' }, classes: 'node1', position: { x: 340, y: 280 } },
-{ data: { id: 'edge1', source: 'stack', target: 'node', label: 'head', color: 'red' }, classes: 'edge red' },
-{ data: { id: 'edge2', source: 'stack', target: 'node0', label: 'head', color: 'green' }, classes: 'edge green' },
-{ data: { id: 'edge3', source: 'node0', target: 'node1', label: 'next', color: 'green' }, classes: 'edge green' },
-{ data: { id: 'edge4', source: 'node1', target: 'node', label: 'next', color: 'green' }, classes: 'edge green' }
+{
+  data: { id: "node1-var", class: "phenotype", label: "value=v1", parent: "node1", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  position: { x: 340, y: 380 },
+  group: "nodes",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: false,
+  pannable: false,
+  classes: ""
+},
+{
+  data: {
+    id: "stack-node",
+    class: "production",
+    cardinality: 0,
+    source: "stack",
+    target: "node",
+    bendPointPositions: [],
+    portSource: "stack",
+    portTarget: "node"
+  },
+  position: {
+    x: 0,
+    y: 0
+  },
+  group: "edges",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: true,
+  pannable: true,
+  classes: ""
+},
+{
+  data: {
+    id: "stack-node0",
+    class: "production",
+    cardinality: 0,
+    source: "stack",
+    target: "node0",
+    bendPointPositions: [],
+    portSource: "stack",
+    portTarget: "node0"
+  },
+  position: {
+    x: 0,
+    y: 0
+  },
+  group: "edges",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: true,
+  pannable: true,
+  classes: "edge red"
+},
+{
+  data: {
+    id: "stack-node0",
+    class: "production",
+    cardinality: 0,
+    source: "stack",
+    target: "node0",
+    bendPointPositions: [],
+    portSource: "stack",
+    portTarget: "node0"
+  },
+  position: {
+    x: 0,
+    y: 0
+  },
+  group: "edges",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: true,
+  pannable: true,
+  classes: "edge green"
+},
+{
+  data: {
+    id: "node0-node1",
+    class: "production",
+    cardinality: 0,
+    source: "node0",
+    target: "node1",
+    bendPointPositions: [],
+    portSource: "node0",
+    portTarget: "node1"
+  },
+  position: {
+    x: 0,
+    y: 0
+  },
+  group: "edges",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: true,
+  pannable: true,
+  classes: "edge green"
+},
+{
+  data: {
+    id: "node1-node",
+    class: "production",
+    cardinality: 0,
+    source: "node1",
+    target: "node",
+    bendPointPositions: [],
+    portSource: "node1",
+    portTarget: "node"
+  },
+  position: {
+    x: 0,
+    y: 0
+  },
+  group: "edges",
+  removed: false,
+  selected: false,
+  selectable: true,
+  locked: false,
+  grabbable: true,
+  pannable: true,
+  classes: "edge green"
+},
+//{ data: { id: 'edge1', source: 'stack', target: 'node', label: 'head', color: 'red' }, classes: 'edge red' },
+//{ data: { id: 'edge2', source: 'stack', target: 'node0', label: 'head', color: 'green' }, classes: 'edge green' },
+//{ data: { id: 'edge3', source: 'node0', target: 'node1', label: 'next', color: 'green' }, classes: 'edge green' },
+//{ data: { id: 'edge4', source: 'node1', target: 'node', label: 'next', color: 'green' }, classes: 'edge green' }
 ];
 
 export const cytoscapeStackPop = [
