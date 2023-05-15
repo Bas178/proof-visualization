@@ -36,7 +36,7 @@ export const cytoscapeStackMain = [
 ];
 
 export const cytoscapeStackPush = [{
-  data: { id: "stack", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "stack", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
   position: { x: 0, y: 0 },
   group: "nodes",
   removed: false,
@@ -60,7 +60,14 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: 'orange' },
+  data: { id: "node", class: "complex", label: '', clonemarker: false, stateVariables: [{
+    id: "node-nullptr",
+    class: "state variable",
+    state: {
+      variable: "",
+      value: "?nullptr"
+    }
+  }], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: 'orange' },
   position: { x: 340, y: 50 },
   group: "nodes",
   removed: false,
@@ -84,7 +91,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node0", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "node0", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
   position: { x: 10, y: 250 },
   group: "nodes",
   removed: false,
@@ -120,7 +127,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node1", class: "compartment", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "node1", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
   position: { x: 340, y: 280 },
   group: "nodes",
   removed: false,
@@ -285,6 +292,30 @@ export const cytoscapeStackPop = [
   { data: { id: 'stack', label: 's:stack', variables: '', color: 'orange' }, classes: 'stack', position: { x: 60, y: 110 } },
   { data: { id: 'node', label: '?n:node', variables: '', color: 'orange' }, classes: 'node', position: { x: 340, y: 50 } },
   { data: { id: 'node0', label: '?he:node', variables: 'value=res', color: 'red' }, classes: 'node0', position: { x: 120, y: 270 } },
+  {
+    data: { id: "result", class: "compartment", label: 'result', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+    position: { x: 600, y: 0 },
+    group: "nodes",
+    removed: false,
+    selected: false,
+    selectable: true,
+    locked: false,
+    grabbable: true,
+    pannable: false,
+    classes: ""
+  },
+  {
+    data: { id: "result-res", class: "macromolecule", label: "res", parent: "result", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 } },
+    position: { x: 600, y: 0 },
+    group: "nodes",
+    removed: false,
+    selected: false,
+    selectable: true,
+    locked: false,
+    grabbable: true,
+    pannable: false,
+    classes: ""
+  },
   { data: { id: 'edge1', source: 'stack', target: 'node', label: 'head', color: 'green' }, classes: 'edge green' },
   { data: { id: 'edge2', source: 'stack', target: 'node0', label: 'head', color: 'red' }, classes: 'edge red' },
   { data: { id: 'edge3', source: 'node0', target: 'node', label: 'next', color: 'red' }, classes: 'edge red' },
