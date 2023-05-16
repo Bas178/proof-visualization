@@ -17,11 +17,11 @@ export default function Home() {
 
         cyRef.current = cytoscape({
             container: document.getElementById('cy'),
-            style: sbgnStyleSheet,
+            style: cytoscapeStyles,
             elements: cytoscapeDummyElements,
         });
 
-        cyRef.current.style(sbgnStylesheet);
+        cyRef.current.style(cytoscapeStyles);
         cyRef.current.layout({ name: 'cose' }).run();
 
         document.getElementById('node-selector').addEventListener('change', function (event) {
@@ -33,14 +33,14 @@ export default function Home() {
             // Based on the selected option, add new nodes and edges
             if (selectedOption === 'main') {
                 cyRef.current.add(cytoscapeStackMain);
-                cyRef.current.style(sbgnStyleSheet);
+                cyRef.current.style(cytoscapeStyles);
                 cyRef.current.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements  
             } else if (selectedOption === 'push') {
                 cyRef.current.add(cytoscapeStackPush);
                 cyRef.current.style(sbgnStyleSheet);
             } else if (selectedOption === 'pop') {
                 cyRef.current.add(cytoscapeStackPop);
-                cyRef.current.style(cytoscapeStackStyles);                
+                cyRef.current.style(sbgnStyleSheet);                
             }
 
             // ... und so weiter für jede Option
