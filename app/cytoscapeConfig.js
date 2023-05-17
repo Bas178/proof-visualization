@@ -379,7 +379,7 @@ export const cytoscapeStackPop = [{
   classes: ""
 },
 {
-  data: { id: "node0-var", class: "phenotype", label: "value=res", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
+  data: { id: "node0-var", class: "phenotype", label: "value=?res", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 150, y: 450 },
   group: "nodes",
   removed: false,
@@ -394,7 +394,7 @@ export const cytoscapeStackPop = [{
 //{ data: { id: 'node', label: '?n:node', variables: '', color: 'orange' }, classes: 'node', position: { x: 340, y: 50 } },
 //{ data: { id: 'node0', label: '?he:node', variables: 'value=res', color: 'red' }, classes: 'node0', position: { x: 120, y: 270 } },
 {
-  data: { id: "result", class: "compartment", label: 'result', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: '#f6f6f6' },
+  data: { id: "result", class: "compartment", label: 'result', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'purple' },
   position: { x: 600, y: 0 },
   group: "nodes",
   removed: false,
@@ -406,7 +406,7 @@ export const cytoscapeStackPop = [{
   classes: ""
 },
 {
-  data: { id: "result-res", class: "macromolecule", label: "res", parent: "result", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 }, color: 'purple' },
+  data: { id: "result-res", class: "phenotype", label: "?res", parent: "result", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 600, y: 0 },
   group: "nodes",
   removed: false,

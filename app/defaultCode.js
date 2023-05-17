@@ -1,151 +1,113 @@
 export const defaultCode = 
 `// Enter your C code with Verifast annotations here...
-        #include "stdlib.h"
-        #include "assert.h"
+#include "stdlib.h"
+#include "assert.h"
         
+struct node {
+    int value;
+    struct node *next;
+};
         
-        struct node {
-            int value;
-            struct node *next;
-        };
+struct stack {
+    struct node *head;
+    int cnt;
+};
         
-        struct stack {
-            struct node *head;
-        };
+struct stack *createStack()
+    //@ requires true;
+    /*@ ensures  malloc_block_stack(result) &*&
+                 stack_head(result, 0) &*& 
+                 stack_cnt(result, 0);
+    @*/
+{
+    struct stack *s = malloc(sizeof(struct stack));
+    if (s == 0) { abort(); }
+    s->head = 0;
+    s->cnt = 0;
+    
+    return s;
+}
         
+struct node *createNode(int v)
+    //@ requires true;
+    /*@ ensures  malloc_block_node(result) &*&
+                 node_value(result, v) &*& 
+                 node_next(result, 0);
+    @*/
+{
+    struct node *n = malloc(sizeof(struct node));
+    if (n == 0) { abort(); }
+    n->value = v;
+    n->next = 0;
+    
+    return n;
+}
         
-        
-        struct stack *createStack()
-            //@ requires true;
-            /*@ ensures malloc_block_stack(result) &*&
-            stack_head(result, 0);
-              @*/
-        {
-            struct stack *s = malloc(sizeof(struct stack));
-            if (s == 0) { abort(); }
-            s->head = 0;
-            return s;
-        }
-        
-        struct node *createNode(int v)
-            //@ requires true;
-            /*@ ensures malloc_block_node(result) &*&
-            node_value(result, v) &*& node_next(result, 0);
-              @*/
-        {
-            struct node *n = malloc(sizeof(struct node));
-            if (n == 0) { abort(); }
-            n->value = v;
-            n->next = 0;
-            return n;
-        }
-        
-        void push2(struct stack *s, int v1, int v2)
-                //@ requires s->head |-> ?h;
-                /*@ ensures s->head |-> ?n0 &*& 
-                n0->value |-> v2 &*& n0->next |-> ?n &*&
-                 n->value |-> v1 &*& n->next |-> h &*&
-                 malloc_block_node(n) &*& 
-                 malloc_block_node(n0);
-                  @*/
-        {
-            push(s, v1);
-            push(s, v2);
-        }
-        
-        void push3(struct stack *s, int v1, int v2, int v3)
-                //@ requires s->head |-> ?h;
-                /*@ ensures s->head |-> ?n1 &*& 
-                n1->value |-> v3 &*& n1->next |-> ?n0 &*& 
-                n0->value |-> v2 &*& n0->next |-> ?n  &*&
-                 n->value |-> v1 &*&  n->next |-> h   &*&
-                 malloc_block_node(n1)  &*& 
-                 malloc_block_node(n0) &*& 
+void push(struct stack *s, int v)
+    /*@ requires s->head |-> ?h &*&
+                 s->cnt |-> ?c;
+    @*/
+    /*@ ensures  s->head |-> ?n &*& s->cnt |-> c+1 &*&
+                 n->value |-> v &*& n->next |-> h &*&
                  malloc_block_node(n);
-                @*/
-        {
-            push(s, v1);
-            push(s, v2);
-            push(s, v3);
-        }
+    @*/
+{
+    struct node *n = createNode(v);
+    n->next = s->head;
+    s->head = n;
+    s->cnt = s->cnt+1;
+}
         
-        void push(struct stack *s, int v)
-            //@ requires s->head |-> ?h;
-            /*@ ensures s->head |-> ?n &*& 
-            n->value |-> v &*& n->next |-> h &*&
-            malloc_block_node(n);
-              @*/
-        {
-            struct node *n = createNode(v);
-            n->next = s->head;
-            s->head = n;
-        }
-        
-        void pop2(struct stack *s)
-                /*@ requires s->head |-> ?he &*&
-                    he->value |-> ?_ &*& he->next |-> ?n &*&
-                    n->value |-> ?_ &*& n->next |-> ?n0 &*&		
-                    malloc_block_node(he) &*&
-                    malloc_block_node(n) ;
-                  @*/
-                //@ ensures s->head |-> n0;
-        {
-            pop(s);
-            pop(s);
-        }
-        
-        int pop(struct stack *s)
-            /*@ requires s->head |-> ?he &*&
-            he->value |-> ?res &*& he->next |-> ?n &*&
-            malloc_block_node(he)  ;
-              @*/
-            //@ ensures s->head |-> n &*& result == res;
-        {
+int pop(struct stack *s)
+    /*@ requires s->head |-> ?he &*&
+                 s->cnt |-> ?c &*&
+                 he->value |-> ?res &*& 
+                 he->next |-> ?n &*&
+                 malloc_block_node(he);
+    @*/
+    /*@ ensures  s->head |-> n &*& 
+                 s->cnt |-> c-1 &*&
+                 result == res;   
+    @*/              
+{
+    struct node *h = s->head;
             
-            struct node *h = s->head;
-            
-            int result = h->value;
-            s->head = h->next;
-            free(h);
+    int result = h->value;
+    s->head = h->next;
+    s->cnt = s->cnt-1;
+    free(h);
            
-            return result;
-        }
+    return result;
+}
         
-        void dispose(struct stack *s)
-            //@ requires malloc_block_stack(s) &*& stack_head(s, 0);
-            //@ ensures true;
-        {
-            free(s);
-        }
+void dispose(struct stack *s)
+    /*@ requires malloc_block_stack(s) &*& 
+                 stack_head(s, 0) &*&
+                 stack_cnt(s, 0);
+    @*/
+    //@ ensures  true;
+{
+    free(s);
+}
         
-        int main()
-            //@ requires true;
-            //@ ensures true;
-        {
-            struct stack *s = createStack();
-            push(s, 10);
-            push(s, 20);
-            push(s, 30);
-            int r3 = pop(s);
-            int r2 = pop(s);
-            int r1 = pop(s);
-            assert(r3 == 30);
-            assert(r2 == 20);
-            assert(r1 == 10);
+int main()
+    //@ requires true;
+    //@ ensures  true;
+{
+    struct stack *s = createStack();
+    push(s, 10);
+    assert(s->cnt == 1);
+    push(s, 20);
+    push(s, 30);
+    int r3 = pop(s);
+    int r2 = pop(s);
+    int r1 = pop(s);
+    assert(r3 == 30);
+    assert(r2 == 20);
+    assert(r1 == 10);
+    assert(s->cnt == 0);
             
-            main1(s);
-            dispose(s);
-            return 0;
-        }
-        
-        
-        void main1(struct stack *s)
-                //@ requires s->head |-> ?h;
-                //@ ensures s->head |-> h;
-        {
-            push2(s, 2, 5);
-            push3(s, 6, 7, 8);
-            pop2(s);
-            pop2(s);
-            pop(s);
-        }`;        
+    dispose(s);
+    return 0;
+}
+`;        
