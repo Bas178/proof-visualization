@@ -36,7 +36,7 @@ export const cytoscapeStackMain = [
 ];
 
 export const cytoscapeStackPush = [{
-  data: { id: "stack", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "stack", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: '#f6f6f6' },
   position: { x: 0, y: 0 },
   group: "nodes",
   removed: false,
@@ -48,7 +48,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "stack-name", class: "macromolecule", label: "s:stack", parent: "stack", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 } },
+  data: { id: "stack-name", class: "macromolecule", label: "s:stack", parent: "stack", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 0.2473300230395, y: 0.5128559182721 },
   group: "nodes",
   removed: false,
@@ -68,7 +68,7 @@ export const cytoscapeStackPush = [{
         variable: "",
         value: "?nullptr"
       }
-    }], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: 'orange'
+    }], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: '#f6f6f6'
   },
   position: { x: 340, y: 50 },
   group: "nodes",
@@ -81,7 +81,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node-name", class: "macromolecule", label: "?h:node", parent: "node", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  data: { id: "node-name", class: "macromolecule", label: "?h:node", parent: "node", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 340.0, y: 50.0 },
   group: "nodes",
   removed: false,
@@ -93,7 +93,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node0", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "node0", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'green' },
   position: { x: 10, y: 250 },
   group: "nodes",
   removed: false,
@@ -105,7 +105,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node0-name", class: "macromolecule", label: "?n0:node", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  data: { id: "node0-name", class: "macromolecule", label: "?n0:node", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 10.0, y: 250.0 },
   group: "nodes",
   removed: false,
@@ -117,7 +117,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node0-var", class: "phenotype", label: "value=v2", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  data: { id: "node0-var", class: "phenotype", label: "value=v2", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 10.0, y: 350.0 },
   group: "nodes",
   removed: false,
@@ -129,7 +129,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node1", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "node1", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 770.0489105995644, y: 603.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'green' },
   position: { x: 340, y: 280 },
   group: "nodes",
   removed: false,
@@ -141,7 +141,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node1-name", class: "macromolecule", label: "?n:node", parent: "node1", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  data: { id: "node1-name", class: "macromolecule", label: "?n:node", parent: "node1", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 340, y: 280 },
   group: "nodes",
   removed: false,
@@ -153,7 +153,7 @@ export const cytoscapeStackPush = [{
   classes: ""
 },
 {
-  data: { id: "node1-var", class: "phenotype", label: "value=v1", parent: "node1", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  data: { id: "node1-var", class: "phenotype", label: "value=v1", parent: "node1", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 340, y: 380 },
   group: "nodes",
   removed: false,
@@ -167,7 +167,7 @@ export const cytoscapeStackPush = [{
 {
   data: {
     id: "stack-node",
-    class: "green",
+    class: "red",
     cardinality: 0,
     source: "stack",
     target: "node",
@@ -175,7 +175,7 @@ export const cytoscapeStackPush = [{
     portSource: "stack",
     portTarget: "node",
     label: 'head',
-    color: 'green'
+    color: 'red'
   },
   position: {
     x: 0,
@@ -193,7 +193,7 @@ export const cytoscapeStackPush = [{
 {
   data: {
     id: "stack-node0",
-    class: "red",
+    class: "green",
     cardinality: 0,
     source: "stack",
     target: "node0",
@@ -201,7 +201,7 @@ export const cytoscapeStackPush = [{
     portSource: "stack",
     portTarget: "node0",
     label: 'head',
-    color: 'red'
+    color: 'green'
   },
   position: {
     x: 0,
@@ -214,7 +214,7 @@ export const cytoscapeStackPush = [{
   locked: false,
   grabbable: true,
   pannable: true,
-  classes: "edge red"
+  classes: ""
 },
 {
   data: {
@@ -299,7 +299,7 @@ export const cytoscapeStackPush = [{
 ];
 
 export const cytoscapeStackPop = [{
-  data: { id: "stack", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'green' },
+  data: { id: "stack", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: '#f6f6f6' },
   position: { x: 0, y: 0 },
   group: "nodes",
   removed: false,
@@ -311,7 +311,7 @@ export const cytoscapeStackPop = [{
   classes: ""
 },
 {
-  data: { id: "stack-name", class: "macromolecule", label: "s:stack", parent: "stack", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 } },
+  data: { id: "stack-name", class: "macromolecule", label: "s:stack", parent: "stack", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 0.2473300230395, y: 0.5128559182721 },
   group: "nodes",
   removed: false,
@@ -331,7 +331,7 @@ export const cytoscapeStackPop = [{
         variable: "",
         value: "?nullptr"
       }
-    }], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: 'orange'
+    }], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: '#f6f6f6'
   },
   position: { x: 350, y: 100 },
   group: "nodes",
@@ -344,7 +344,7 @@ export const cytoscapeStackPop = [{
   classes: ""
 },
 {
-  data: { id: "node-name", class: "macromolecule", label: "?n:node", parent: "node", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  data: { id: "node-name", class: "macromolecule", label: "?n:node", parent: "node", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 350.0, y: 100.0 },
   group: "nodes",
   removed: false,
@@ -355,7 +355,7 @@ export const cytoscapeStackPop = [{
   pannable: false,
   classes: ""
 }, {
-  data: { id: "node0", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: 'orange' },
+  data: { id: "node0", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 340.0, y: 50.0, w: 250.0, h: 300.0 }, color: 'red' },
   position: { x: 150, y: 350 },
   group: "nodes",
   removed: false,
@@ -367,7 +367,7 @@ export const cytoscapeStackPop = [{
   classes: ""
 },
 {
-  data: { id: "node0-name", class: "macromolecule", label: "?he:node", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: 'red' },
+  data: { id: "node0-name", class: "macromolecule", label: "?he:node", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 150.0, y: 350.0 },
   group: "nodes",
   removed: false,
@@ -379,7 +379,7 @@ export const cytoscapeStackPop = [{
   classes: ""
 },
 {
-  data: { id: "node0-var", class: "phenotype", label: "value=res", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 } },
+  data: { id: "node0-var", class: "phenotype", label: "value=res", parent: "node0", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 729.7050429901893, y: 725.5935040834514, w: 120, h: 60 }, color: '#f6f6f6' },
   position: { x: 150, y: 450 },
   group: "nodes",
   removed: false,
@@ -394,7 +394,7 @@ export const cytoscapeStackPop = [{
 //{ data: { id: 'node', label: '?n:node', variables: '', color: 'orange' }, classes: 'node', position: { x: 340, y: 50 } },
 //{ data: { id: 'node0', label: '?he:node', variables: 'value=res', color: 'red' }, classes: 'node0', position: { x: 120, y: 270 } },
 {
-  data: { id: "result", class: "compartment", label: 'result', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'orange' },
+  data: { id: "result", class: "compartment", label: 'result', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: '#f6f6f6' },
   position: { x: 600, y: 0 },
   group: "nodes",
   removed: false,
@@ -605,7 +605,11 @@ export const sbgnStyleSheet = [
       'text-halign': 'center',
       'border-width': 1.5,
       'border-color': '#555',
-      'background-color': '#f6f6f6',
+      //('data(color)' !== '') ? 'data(color)' : '#f6f6f6',
+      //'background-color': ('data(color)' !== '') ? 'data(color)' : '#f6f6f6',
+      'background-color': ('data(color)' === undefined) ? '#f6f6f6' : 'data(color)',
+      //'background-color': 'data(color) ? data(color) : #f6f6f6',
+      //'background-color': '#f6f6f6',
       'text-opacity': 1,
       'opacity': 1,
       'text-outline-color': 'white',
