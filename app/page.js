@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import styles from './page.module.css'
 import cytoscape from 'cytoscape';
 import Editor from '@monaco-editor/react';
-import { cytoscapeDummyElements, cytoscapeStackMain, cytoscapeStackPush, cytoscapeStackPop, cytoscapeStyles, cytoscapeStackStyles, sbgnStyleSheet } from './cytoscapeConfig';
+import { cytoscapeDummyElements, cytoscapeStackMain, cytoscapeStackCreateStack, cytoscapeStackCreateNode, cytoscapeStackPush, cytoscapeStackPop, cytoscapeStackDispose, cytoscapeStyles, cytoscapeStackStyles, sbgnStyleSheet } from './cytoscapeConfig';
 import { defaultCode } from "./defaultCode";
 //import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
 
@@ -31,17 +31,36 @@ export default function Home() {
             cyRef.current.elements().remove();
 
             // Based on the selected option, add new nodes and edges
-            if (selectedOption === 'main') {
-                cyRef.current.add(cytoscapeStackMain);
-                cyRef.current.style(cytoscapeStyles);
-                cyRef.current.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements  
-            } else if (selectedOption === 'push') {
-                cyRef.current.add(cytoscapeStackPush);
-                cyRef.current.style(sbgnStyleSheet);
-            } else if (selectedOption === 'pop') {
-                cyRef.current.add(cytoscapeStackPop);
-                cyRef.current.style(sbgnStyleSheet);                
+            switch (selectedOption) {
+                case 'main':
+                    cyRef.current.add(cytoscapeStackMain);
+                    cyRef.current.style(cytoscapeStackStyles);
+                    cyRef.current.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements 
+                    break;
+                case 'createStack':
+                    cyRef.current.add(cytoscapeStackCreateStack);
+                    cyRef.current.style(sbgnStyleSheet);
+                    break;
+                case 'createNode':
+                    cyRef.current.add(cytoscapeStackCreateNode);
+                    cyRef.current.style(sbgnStyleSheet);
+                    break;
+                case 'push':
+                    cyRef.current.add(cytoscapeStackPush);
+                    cyRef.current.style(sbgnStyleSheet);
+                    break;
+                case 'pop':
+                    cyRef.current.add(cytoscapeStackPop);
+                    cyRef.current.style(sbgnStyleSheet);
+                    break;
+                case 'dispose':
+                    cyRef.current.add(cytoscapeStackDispose);
+                    cyRef.current.style(sbgnStyleSheet);
+                    break;
+                default:
+                    console.log(`Sorry, we are out of ${expr}.`);
             }
+
 
             // ... und so weiter für jede Option
         });
@@ -81,28 +100,31 @@ export default function Home() {
             </nav>
             <main className={styles.main}>
                 <div className="row">
-                     
-                        <div id="editor" className={styles.editor} >
-                            <Editor
-                                defaultLanguage="c"
-                                defaultValue={defaultCode}
-                                theme="vs-dark"
-                                onMount={handleEditorDidMount}
-                            />
-                        </div>
-                    
-                    
+
+                    <div id="editor" className={styles.editor} >
+                        <Editor
+                            defaultLanguage="c"
+                            defaultValue={defaultCode}
+                            theme="vs-dark"
+                            onMount={handleEditorDidMount}
+                        />
+                    </div>
+
+
                     <div id="cy-container" className={styles.cyContainer} >
                         <select className={styles.nodeSelector} id="node-selector">
-                            <option value="main">Main</option>
-                            <option value="push">Push2(s,v1,v2)</option>
-                            <option value="pop">Pop()</option>
+                            <option value="main">main</option>
+                            <option value="createStack">createStack()</option>
+                            <option value="createNode">createNode()</option>
+                            <option value="push">push(s,v)</option>
+                            <option value="pop">pop(s)</option>
+                            <option value="dispose">dispose(s)</option>
                         </select>
                         <div className={styles.cy} id="cy" ref={cyRef}></div>
-                    
+
+                    </div>
                 </div>
-        </div>
-        </main >
+            </main >
         </div >
 
     );
