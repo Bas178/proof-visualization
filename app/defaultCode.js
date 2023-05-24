@@ -45,7 +45,7 @@ struct node *createNode(int v)
         
 void push(struct stack *s, int v)
     /*@ requires s->head |-> ?h &*&
-                 s->cnt |-> ?c;
+                 s->cnt |-> ?c &*& c < INT_MAX;
     @*/
     /*@ ensures  s->head |-> ?n &*& s->cnt |-> c+1 &*&
                  n->value |-> v &*& n->next |-> h &*&
@@ -60,7 +60,7 @@ void push(struct stack *s, int v)
         
 int pop(struct stack *s)
     /*@ requires s->head |-> ?he &*&
-                 s->cnt |-> ?c &*&
+                 s->cnt |-> ?c &*& c > 0 &*&
                  he->value |-> ?res &*& 
                  he->next |-> ?n &*&
                  malloc_block_node(he);
