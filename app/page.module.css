@@ -1,6 +1,6 @@
 .main {
           
-    min-height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px - 51px);
     min-width: 100vh;
     margin: 0;
     overflow: hidden;
@@ -10,7 +10,7 @@
 
 .editor, .cyContainer {
     width: 50%;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 56px - 51px);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -26,3 +26,28 @@
     flex: 1;
     background-color: #1e1e1e;
 }
+
+.runButtonContainer {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: #1e1e1e;
+    
+}
+
+.runButton {
+    padding: 5px 10px;
+    font-size: 14px;    
+    background-color: #444444; /* Dunkelgrauer Hintergrund, ähnlich dem VS Code Dark Theme */
+    color: #999999; /* Heller Grauton für den Text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Fügt eine weiche Übergangsanimation hinzu */
+}
+
+.runButton:hover {
+    background-color: #666666; /* Ein etwas hellerer Grauton, wenn man mit der Maus darüberfährt */
+    color: #ffffff; /* Strahlend weißer Text beim Darüberfahren mit der Maus */
+}
+

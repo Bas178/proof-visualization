@@ -98,6 +98,11 @@ export default function Home() {
                     </div>
                 </div>
             </nav>
+
+            <div className={styles.runButtonContainer}>
+                <button className={styles.runButton}>Run</button>
+            </div>
+
             <main className={styles.main}>
                 <div className="row">
 
