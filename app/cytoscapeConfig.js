@@ -231,7 +231,7 @@ export const cytoscapeStackCreateNode = [{
 ];
 
 export const cytoscapeStackPush = [{
-  data: { id: "constrains", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 100.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'yellow' },
+  data: { id: "constrains", class: "complex", label: '<<constraints>>', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 100.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: 'yellow' },
   position: { x: 550, y: -50 },
   group: "nodes",
   removed: false,
@@ -242,18 +242,7 @@ export const cytoscapeStackPush = [{
   pannable: false,
   classes: ""
 },{
-  data: { id: "constrains-name", class: "macromolecule", label: "constrains", parent: "constrains", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 120, h: 60 }, color: 'yellow' },
-  position: { x: 550.0, y: -50.0 },
-  group: "nodes",
-  removed: false,
-  selected: false,
-  selectable: true,
-  locked: false,
-  grabbable: true,
-  pannable: false,
-  classes: ""
-},{
-  data: { id: "constrains-var", class: "phenotype", label: "• c < INT_MAX", parent: "constrains", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.7050429901893, y: 0.5935040834514, w: 180, h: 60 }, color: 'yellow' },
+  data: { id: "constraints-var", class: "constraints", label: "• c < INT_MAX", parent: "constrains", clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 200.7050429901893, y: 200.5935040834514, w: 280, h: 60 }, color: 'yellow' },
   position: { x: 550.0, y: 50.0 },
   group: "nodes",
   removed: false,
@@ -262,7 +251,7 @@ export const cytoscapeStackPush = [{
   locked: false,
   grabbable: true,
   pannable: true,
-  classes: ""
+  classes: "constraints"
 },{
   data: { id: "stack", class: "complex", label: '', clonemarker: false, stateVariables: [], unitsOfInformation: [], bbox: { x: 0.0489105995644, y: 0.9053834474291, w: 254.08954881649527, h: 304.8762412720447 }, color: '#f6f6f6' },
   position: { x: 0, y: 0 },

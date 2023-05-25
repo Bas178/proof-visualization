@@ -34,6 +34,7 @@ const sbgnStyleSheet = function (cytoscape) {
       'overlay-color': '#d67614',
       'overlay-padding': '14'
     })
+       
 
     // draw sbgn specific styling (auxiliary items, clonemarker, etc.)
     .selector(`

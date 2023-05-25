@@ -19,6 +19,7 @@ const sbgnStyle = new Map()
 .set('omitted process', {w:25, h: 25, shape: 'square'})
 .set('association', {w:25, h: 25, shape: 'ellipse'})
 .set('dissociation', {w:25, h: 25, shape: 'ellipse'})
+.set('dissociation2', {w:150, h: 50, shape: 'ellipse'})
 
 .set('compartment', {w: 50, h: 50, shape: 'barrel'})
 

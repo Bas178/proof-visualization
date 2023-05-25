@@ -16,8 +16,8 @@ struct stack {
 struct stack *createStack()
     //@ requires true;
     /*@ ensures  malloc_block_stack(result) &*&
-                 stack_head(result, 0) &*& 
-                 stack_cnt(result, 0);
+                 result->head |-> 0 &*&
+                 result->cnt  |-> 0;
     @*/
 {
     struct stack *s = malloc(sizeof(struct stack));
@@ -31,8 +31,8 @@ struct stack *createStack()
 struct node *createNode(int v)
     //@ requires true;
     /*@ ensures  malloc_block_node(result) &*&
-                 node_value(result, v) &*& 
-                 node_next(result, 0);
+                 result->value |-> v &*&
+                 result->next  |-> 0;
     @*/
 {
     struct node *n = malloc(sizeof(struct node));
