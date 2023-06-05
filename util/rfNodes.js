@@ -78,21 +78,24 @@ const nodes = [
 export default nodes;
 
 export const rfStackMain = [
-    { id: 'main', data: { label: 'main' }, position: { x: 0, y: 0 }, style: { width: 100, height: 50, },  },    
+    { id: 'main', data: { label: 'main' }, position: { x: 0, y: 0 }, style: { width: 100, height: 50, }, },
     { id: 'createStack', data: { label: 'createStack' }, position: { x: 100, y: 0 }, style: { width: 100, height: 50, }, },
     { id: 'push', data: { label: 'push' }, position: { x: 200, y: 0 }, style: { width: 100, height: 50, }, },
     { id: 'pop', data: { label: 'pop' }, position: { x: 300, y: 0 }, style: { width: 100, height: 50, }, },
     { id: 'dispose', data: { label: 'dispose' }, position: { x: 400, y: 0 }, style: { width: 100, height: 50, }, },
     { id: 'createNode', data: { label: 'createNode' }, position: { x: 500, y: 0 }, style: { width: 100, height: 50, }, },
-    
-    
-    
+
+
+
 ];
 
 
 
 
-export const rfCreateStack = [ /* Ihre Node-Konfiguration hier */];
+export const rfCreateStack = [
+    { id: '2', data: { label: 'Group A' }, position: { x: 100, y: 100 }, className: 'light', style: { backgroundColor: 'rgba(255, 0, 0, 0.2)', width: 200, height: 200 }, },
+    { id: '2a', data: { label: 'Node A.1' }, position: { x: 10, y: 50 }, parentNode: '2', },
+];
 
 
 export const rfCreateNode = [ /* Ihre Node-Konfiguration hier */];
