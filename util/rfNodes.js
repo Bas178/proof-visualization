@@ -78,12 +78,12 @@ const nodes = [
 export default nodes;
 
 export const rfStackMain = [
-    { id: 'main', data: { label: 'main' }, type: 'group', position: { x: 0, y: 0 }, style: { width: 170, height: 140, }, className: 'light', },    
-    { id: 'createStack', data: { label: 'createStack' }, position: { x: 100, y: 0 }, style: { width: 170, height: 140, }, },
-    { id: 'push', data: { label: 'push' }, position: { x: 200, y: 0 }, style: { width: 170, height: 140, }, },
-    { id: 'pop', data: { label: 'pop' }, position: { x: 300, y: 0 }, style: { width: 170, height: 140, }, },
-    { id: 'dispose', data: { label: 'dispose' }, position: { x: 400, y: 0 }, style: { width: 170, height: 140, }, },
-    { id: 'createNode', data: { label: 'createNode' }, position: { x: 500, y: 0 }, style: { width: 170, height: 140, }, },
+    { id: 'main', data: { label: 'main' }, position: { x: 0, y: 0 }, style: { width: 100, height: 50, },  },    
+    { id: 'createStack', data: { label: 'createStack' }, position: { x: 100, y: 0 }, style: { width: 100, height: 50, }, },
+    { id: 'push', data: { label: 'push' }, position: { x: 200, y: 0 }, style: { width: 100, height: 50, }, },
+    { id: 'pop', data: { label: 'pop' }, position: { x: 300, y: 0 }, style: { width: 100, height: 50, }, },
+    { id: 'dispose', data: { label: 'dispose' }, position: { x: 400, y: 0 }, style: { width: 100, height: 50, }, },
+    { id: 'createNode', data: { label: 'createNode' }, position: { x: 500, y: 0 }, style: { width: 100, height: 50, }, },
     
     
     

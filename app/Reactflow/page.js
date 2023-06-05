@@ -12,6 +12,7 @@ import { defaultCode } from '@/util/defaultCode';
 import initialNodes from '@/util/rfNodes'
 import initialEdges from '@/util/rfEdges'
 import { rfStackMain, rfCreateStack, rfCreateNode } from "@/util/rfNodes";
+import { rfEdgesStackMain, rfEdgesCreateStack, rfEdgesCreateNode } from "@/util/rfEdges";
 
 const rfStyle = {
   backgroundColor: '#eeeeee',
@@ -23,11 +24,19 @@ export default function Reactflow() {
   const [edges, setEdges] = useState(initialEdges);
 
   const [selectedNode, setSelectedNode] = useState("main");
+  const [selectedEdges, setSelectedEdges] = useState("main");
 
   const nodeConfigurations = {
     "main": rfStackMain,
     "createStack": rfCreateStack,
     "createNode": rfCreateNode,
+    // usw.
+  };
+
+  const edgeConfigurations = {
+    "main": rfEdgesStackMain,
+    "createStack": rfEdgesCreateStack,
+    "createNode": rfEdgesCreateNode,
     // usw.
   };
 
@@ -44,14 +53,17 @@ export default function Reactflow() {
     [setEdges]
   );
 
-  const handleNodeSelect = (e) => {
+  const handleFunctionSelect = (e) => {
     setSelectedNode(e.target.value);
+    setSelectedEdges(e.target.value);
   };
 
   useEffect(() => {
     const newNodes = getNodesForSelection(selectedNode); // Implement this function
     setNodes(newNodes);
-  }, [selectedNode]);
+    const newEdges = getEdgesForSelection(selectedNode); // Implement this function
+    setEdges(newEdges);
+  }, [selectedNode, selectedEdges]);
 
   function handleEditorDidMount(editor, monaco) {
     editor.onDidChangeModelContent(() => {
@@ -63,6 +75,10 @@ export default function Reactflow() {
 
   function getNodesForSelection(selection) {
     return nodeConfigurations[selection] || [];
+  }
+
+  function getEdgesForSelection(selection) {
+    return edgeConfigurations[selection] || [];
   }
 
   return (
@@ -108,7 +124,7 @@ export default function Reactflow() {
 
 
           <div id="rf-container" className={styles.rfContainer} >
-            <select className={styles.nodeSelector} id="node-selector" onChange={handleNodeSelect}>
+            <select className={styles.nodeSelector} id="node-selector" onChange={handleFunctionSelect}>
               <option value="main">main</option>
               <option value="createStack">createStack()</option>
               <option value="createNode">createNode()</option>
