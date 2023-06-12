@@ -9,9 +9,8 @@ import Editor from '@monaco-editor/react';
 
 import { defaultCode } from '@/util/defaultCode';
 
-import initialNodes from '@/util/rfNodes'
-import initialEdges from '@/util/rfEdges'
-import { rfStackMain, rfCreateStack, rfCreateNode } from "@/util/rfNodes";
+import initialNodes, {  rfStackMain, rfCreateStack, rfCreateNode, rfStackDispose, rfStackPush, rfStackPop } from '@/util/rfNodes'
+import initialEdges, { rfEdgesStackDispose, rfEdgesStackPop, rfEdgesStackPush } from '@/util/rfEdges'
 import { rfEdgesStackMain, rfEdgesCreateStack, rfEdgesCreateNode } from "@/util/rfEdges";
 
 const rfStyle = {
@@ -30,6 +29,9 @@ export default function Reactflow() {
     "main": rfStackMain,
     "createStack": rfCreateStack,
     "createNode": rfCreateNode,
+    "push": rfStackPush,
+    "pop": rfStackPop,
+    "dispose": rfStackDispose,
     // usw.
   };
 
@@ -37,6 +39,9 @@ export default function Reactflow() {
     "main": rfEdgesStackMain,
     "createStack": rfEdgesCreateStack,
     "createNode": rfEdgesCreateNode,
+    "push": rfEdgesStackPush,
+    "pop": rfEdgesStackPop,
+    "dispose": rfEdgesStackDispose,
     // usw.
   };
 
@@ -142,7 +147,7 @@ export default function Reactflow() {
               style={rfStyle}
               attributionPosition="top-right"
             >
-              <MiniMap />
+             {/* <MiniMap /> */ }
               <Controls/>
               <Background />
             </ReactFlow>

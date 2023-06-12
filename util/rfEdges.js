@@ -24,7 +24,10 @@ export const rfEdgesStackMain = [
 
 
 
-export const rfEdgesCreateStack = [ /* Ihre Node-Konfiguration hier */];
+export const rfEdgesCreateStack = [ { id: 'stack-nullpointer', source: 'stack', target: 'nullpointer' ,style: {color:'rgba(124, 252, 0, 0.2)' },},];
 
 
-export const rfEdgesCreateNode = [ /* Ihre Node-Konfiguration hier */];
+export const rfEdgesCreateNode = [ { id: 'node-result', source: 'node', target: 'result', style: {color:'rgba(124, 252, 0, 0.2)' },},];
+export const rfEdgesStackPush = [ ];
+export const rfEdgesStackPop = [ ];
+export const rfEdgesStackDispose = [ { id: 'stack-result', source: 'stack', target: 'result', style: {color:'rgba(255, 0, 0, 0.2)'} },];
