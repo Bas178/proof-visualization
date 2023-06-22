@@ -13,6 +13,7 @@ import FloatingEdge from '@/util/floatingEdge';
 import initialNodes, {  rfStackMain, rfCreateStack, rfCreateNode, rfStackDispose, rfStackPush, rfStackPop } from '@/util/rfNodes'
 import initialEdges, { rfEdgesStackDispose, rfEdgesStackPop, rfEdgesStackPush } from '@/util/rfEdges'
 import { rfEdgesStackMain, rfEdgesCreateStack, rfEdgesCreateNode } from "@/util/rfEdges";
+import CircleNode from "@/util/circleNode";
 
 const rfStyle = {
   backgroundColor: '#eeeeee',
@@ -46,13 +47,13 @@ export default function Reactflow() {
     // usw.
   };
 
-  const edgeTypes = {
-    floating: FloatingEdge,
+  const nodeTypes = {
+    circleNode: CircleNode,
   };
 
   const defaultEdgeOptions = {
     style: { strokeWidth: 3, stroke: 'black' },
-    type: 'floating',
+    
     markerEnd: {
       type: MarkerType.ArrowClosed,
       color: 'black',
@@ -156,9 +157,9 @@ export default function Reactflow() {
               edges={edges}
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              edgeTypes={edgeTypes}
+              onConnect={onConnect}              
               defaultEdgeOptions={defaultEdgeOptions}
+              nodeTypes={nodeTypes}
               fitView
               style={rfStyle}
               attributionPosition="top-right"

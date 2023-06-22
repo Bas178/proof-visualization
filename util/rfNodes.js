@@ -78,18 +78,16 @@ const nodes = [
 export default nodes;
 
 export const rfStackMain = [
-    { id: 'main', data: { label: 'main' }, position: { x: 0, y: 0 }, style: { width: 100, height: 50, }, },
-    { id: 'createStack', data: { label: 'createStack' }, position: { x: 100, y: 0 }, style: { width: 100, height: 50, }, },
-    { id: 'push', data: { label: 'push' }, position: { x: 200, y: 0 }, style: { width: 100, height: 50, }, },
-    { id: 'pop', data: { label: 'pop' }, position: { x: 300, y: 0 }, style: { width: 100, height: 50, }, },
-    { id: 'dispose', data: { label: 'dispose' }, position: { x: 400, y: 0 }, style: { width: 100, height: 50, }, },
-    { id: 'createNode', data: { label: 'createNode' }, position: { x: 500, y: 0 }, style: { width: 100, height: 50, }, },
+    { id: 'main', data: { label: 'main' }, position: { x: 200, y: 0 }, style: { width: 100, height: 50, }, },
+    { id: 'createStack', data: { label: 'createStack' }, position: { x: 0, y: 250 }, style: { width: 100, height: 50, }, },
+    { id: 'push', data: { label: 'push' }, position: { x: 200, y: 250 }, style: { width: 100, height: 50, }, },
+    { id: 'pop', data: { label: 'pop' }, position: { x: 300, y: 350 }, style: { width: 100, height: 50, }, },
+    { id: 'dispose', data: { label: 'dispose' }, position: { x: 450, y: 350 }, style: { width: 100, height: 50, }, },
+    { id: 'createNode', data: { label: 'createNode' }, position: { x: 150, y: 450 }, style: { width: 100, height: 50, }, },
 
 
 
 ];
-
-
 
 
 export const rfCreateStack = [
@@ -103,7 +101,7 @@ export const rfCreateNode = [
     { id: 'node', data: { label: 'n:node' }, position: { x: 100, y: 100 }, className: 'light', style: { backgroundColor: 'rgba(124, 252, 0, 0.2)', width: 200, height: 100 }, },
 { id: 'node-var', data: { label: 'value=v' }, position: { x: 20, y: 50 }, parentNode: 'node', extent: 'parent', },
 { id: 'result', data: { label: 'result' }, position: { x: 250, y: 250 }, style: {  width: 160, height: 80 },  },
-{ id: 'nullpointer', data: { label: '⏊' }, position: { x: 120, y: 0 }, style: {  width: 40, height: 40 }, parentNode: 'result', extent: 'parent', },
+{ id: 'nullpointer', type: 'circleNode', data: { label: '⏊' }, position: { x: 120, y: 0 }, style: {  width: 20, height: 20 }, parentNode: 'result', extent: 'parent', },
 ];
 
 export const rfStackPush = [ 
@@ -130,6 +128,5 @@ export const rfStackPop = [
 export const rfStackDispose = [ 
     { id: 'stack', data: { label: 'n:node' }, position: { x: 100, y: 100 }, className: 'light', style: { backgroundColor: 'rgba(255, 0, 0, 0.2)', width: 200, height: 100 }, },
 { id: 'stack-var', data: { label: 'value=v' }, position: { x: 20, y: 50 }, parentNode: 'stack', extent: 'parent', },
-{ id: 'result', data: { label: 'result' }, position: { x: 250, y: 250 }, style: {  width: 160, height: 80 },  },
-{ id: 'nullpointer', data: { label: '⏊' }, position: { x: 120, y: 0 }, style: {  width: 40, height: 40 }, parentNode: 'result', extent: 'parent', },
+{ id: 'nullpointer', type: 'circleNode',  data: { label: '⏊' }, position: { x: 250, y: 250 }, style: {  width: 40, height: 40 }, },
 ];
