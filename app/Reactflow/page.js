@@ -1,6 +1,6 @@
 'use client'
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
-import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges, Background, Controls, MiniMap } from 'reactflow';
+import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges, Background, MarkerType, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import styles from './page.module.css'
@@ -8,6 +8,7 @@ import styles from './page.module.css'
 import Editor from '@monaco-editor/react';
 
 import { defaultCode } from '@/util/defaultCode';
+import FloatingEdge from '@/util/floatingEdge';
 
 import initialNodes, {  rfStackMain, rfCreateStack, rfCreateNode, rfStackDispose, rfStackPush, rfStackPop } from '@/util/rfNodes'
 import initialEdges, { rfEdgesStackDispose, rfEdgesStackPop, rfEdgesStackPush } from '@/util/rfEdges'
@@ -43,6 +44,19 @@ export default function Reactflow() {
     "pop": rfEdgesStackPop,
     "dispose": rfEdgesStackDispose,
     // usw.
+  };
+
+  const edgeTypes = {
+    floating: FloatingEdge,
+  };
+
+  const defaultEdgeOptions = {
+    style: { strokeWidth: 3, stroke: 'black' },
+    type: 'floating',
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: 'black',
+    },
   };
 
   const onNodesChange = useCallback(
@@ -143,6 +157,8 @@ export default function Reactflow() {
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}
+              edgeTypes={edgeTypes}
+              defaultEdgeOptions={defaultEdgeOptions}
               fitView
               style={rfStyle}
               attributionPosition="top-right"
