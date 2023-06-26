@@ -82,8 +82,8 @@ int pop(struct stack *s)
         
 void dispose(struct stack *s)
     /*@ requires malloc_block_stack(s) &*& 
-                 stack_head(s, 0) &*&
-                 stack_cnt(s, 0);
+                 s->head |-> 0  &*&
+                 s->cnt |-> 0;
     @*/
     //@ ensures  true;
 {
@@ -110,4 +110,5 @@ int main()
     dispose(s);
     return 0;
 }
+
 `;        
