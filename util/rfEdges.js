@@ -28,7 +28,7 @@ export const rfEdgesStackMain = [
 export const rfEdgesCreateStack = [{ id: 'stack-nullpointer', source: 'stack', target: 'nullpointer', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'green', }, label: 'head', style: { strokeWidth: 2, stroke: 'green', }, },];
 
 
-export const rfEdgesCreateNode = [{ id: 'node-result', source: 'node', target: 'result', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'green', }, label: 'next', style: { strokeWidth: 2, stroke: 'green', }, },];
+export const rfEdgesCreateNode = [{ id: 'node-nullpointer', source: 'node', target: 'nullpointer', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'green', }, label: 'next', style: { strokeWidth: 2, stroke: 'green', }, },];
 export const rfEdgesStackPush = [
     { id: 'stack-node0', source: 'stack', target: 'node0', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'green', }, label: 'head', style: { strokeWidth: 2, stroke: 'green', }, },
     { id: 'stack-node1', source: 'stack', target: 'node1', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'red', }, label: 'head', style: { strokeWidth: 2, stroke: 'red', }, },
