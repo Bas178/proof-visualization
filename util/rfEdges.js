@@ -35,8 +35,8 @@ export const rfEdgesStackPush = [
     { id: 'node0-node1', source: 'node0', target: 'node1', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'green', }, label: 'next', style: { strokeWidth: 2, stroke: 'green', }, },
 ];
 export const rfEdgesStackPop = [
-    { id: 'stack-node0', source: 'stack', target: 'node0', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'red', }, label: 'head', style: { strokeWidth: 2, stroke: 'red', }, },
-    { id: 'stack-node1', source: 'stack', target: 'node1', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'green', }, label: 'head', style: { strokeWidth: 2, stroke: 'green', }, },
-    { id: 'node0-node1', source: 'node0', target: 'node1', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'red', }, label: 'next', style: { strokeWidth: 2, stroke: 'red', }, },
+    { id: 'stack-node1', source: 'stack', target: 'node1', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'red', }, label: 'head', style: { strokeWidth: 2, stroke: 'red', }, },
+    { id: 'stack-node0', source: 'stack', target: 'node0', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'green', }, label: 'head', style: { strokeWidth: 2, stroke: 'green', }, },
+    { id: 'node1-node0', source: 'node1', target: 'node0', markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'red', }, label: 'next', style: { strokeWidth: 2, stroke: 'red', }, },
 ];
 export const rfEdgesStackDispose = [{ id: 'stack-nullpointer', source: 'stack', target: 'nullpointer',  markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: 'red', }, label: 'next', style: { strokeWidth: 2, stroke: 'red', }, },];

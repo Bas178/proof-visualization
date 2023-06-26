@@ -1,0 +1,30 @@
+.object-node {
+    height: 30px;
+    border: 1px solid #eee;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+  }
+  
+  .object-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+  }
+
+  .value-node {
+    height: 30px;
+    width: 50px;
+    border: 1px solid #eee;
+    padding: 5px;
+    
+    background: white;
+    border-radius: 50%,        
+    
+  }
+  
+  .value-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+  }

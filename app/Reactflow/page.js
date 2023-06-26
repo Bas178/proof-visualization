@@ -14,6 +14,10 @@ import initialNodes, {  rfStackMain, rfCreateStack, rfCreateNode, rfStackDispose
 import initialEdges, { rfEdgesStackDispose, rfEdgesStackPop, rfEdgesStackPush } from '@/util/rfEdges'
 import { rfEdgesStackMain, rfEdgesCreateStack, rfEdgesCreateNode } from "@/util/rfEdges";
 import CircleNode from "@/util/circleNode";
+import ObjectNode from "@/util/objectNode";
+
+import '@/util/node.css'
+import ValueNode from "@/util/valueNode";
 
 const rfStyle = {
   backgroundColor: '#eeeeee',
@@ -49,6 +53,8 @@ export default function Reactflow() {
 
   const nodeTypes = {
     circleNode: CircleNode,
+    objectNode: ObjectNode,
+    valueNode: ValueNode,
   };
 
   const defaultEdgeOptions = {
@@ -145,12 +151,12 @@ export default function Reactflow() {
 
           <div id="rf-container" className={styles.rfContainer} >
             <select className={styles.nodeSelector} id="node-selector" onChange={handleFunctionSelect}>
-              <option value="main">main</option>
+              <option value="main">main()</option>
               <option value="createStack">createStack()</option>
-              <option value="createNode">createNode()</option>
-              <option value="push">push(s,v)</option>
-              <option value="pop">pop(s)</option>
-              <option value="dispose">dispose(s)</option>
+              <option value="createNode">createNode(int v)</option>
+              <option value="push">push(stack *s, int v)</option>
+              <option value="pop">pop(stack *s)</option>
+              <option value="dispose">dispose(stack *s)</option>
             </select>
             <ReactFlow
               nodes={nodes}
