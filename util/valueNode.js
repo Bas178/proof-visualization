@@ -6,8 +6,8 @@ function ValueNode({ data, isConnectable })
   return (
     
       
-      <div className="value-node">
-        <label>{data.label}</label>        
+      <div className="value-node" style={{backgroundColor: data.backgroundColor, display: 'flex', justifyContent: 'center',}}>
+        <label style={{color: data.labelColor}}>{data.label}</label>        
       </div>
       
       

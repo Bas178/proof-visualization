@@ -4,6 +4,12 @@
     padding: 5px;
     border-radius: 5px;
     background: white;
+    
+  }
+
+  .object-node.selected {
+    border-width: 2px; /* dickerer Rand, wenn ausgewählt */
+    border: 1px solid black;
   }
   
   .object-node label {
