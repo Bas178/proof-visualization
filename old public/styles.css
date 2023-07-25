@@ -1,0 +1,50 @@
+html,body {
+    background: rgb(33,33,33);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: white;
+    margin: 0;
+}
+h1 {
+    text-align: center;
+}
+footer {
+    text-align: center;
+    color: #444;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* for monaco */
+.wrapper {
+    padding: 0 5%;
+}
+#monaco-editor-root {
+    height: calc(100vh - 7.5rem - 70px);
+}
+
+
+/* for button */
+
+.runButtonContainer {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: #1e1e1e;
+    
+  }
+
+.runButton {
+    padding: 5px 10px;
+    font-size: 14px;    
+    background-color: #444444; /* Dunkelgrauer Hintergrund, ähnlich dem VS Code Dark Theme */
+    color: #999999; /* Heller Grauton für den Text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Fügt eine weiche Übergangsanimation hinzu */
+}
+
+.runButton:hover {
+    background-color: #666666; /* Ein etwas hellerer Grauton, wenn man mit der Maus darüberfährt */
+    color: #ffffff; /* Strahlend weißer Text beim Darüberfahren mit der Maus */
+}

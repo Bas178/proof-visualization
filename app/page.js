@@ -1,136 +1,183 @@
 'use client'
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
-import { useEffect, useState, useRef } from 'react';
+import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges, Background, MarkerType, Controls, MiniMap } from 'reactflow';
+import 'reactflow/dist/style.css';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import styles from './page.module.css'
-import cytoscape from 'cytoscape';
+
 import Editor from '@monaco-editor/react';
-import { cytoscapeDummyElements, cytoscapeStackMain, cytoscapeStackCreateStack, cytoscapeStackCreateNode, cytoscapeStackPush, cytoscapeStackPop, cytoscapeStackDispose, cytoscapeStyles, cytoscapeStackStyles, sbgnStyleSheet } from './cytoscapeConfig';
-import { defaultCode } from "./defaultCode";
-//import sbgnStylesheet from 'cytoscape-sbgn-stylesheet';
+
+import { defaultCode } from '@/util/defaultCode';
+import FloatingEdge from '@/util/floatingEdge';
+
+import initialNodes, {  rfStackMain, rfCreateStack, rfCreateNode, rfStackDispose, rfStackPush, rfStackPop } from '@/util/rfNodes'
+import initialEdges, { rfEdgesStackDispose, rfEdgesStackPop, rfEdgesStackPush } from '@/util/rfEdges'
+import { rfEdgesStackMain, rfEdgesCreateStack, rfEdgesCreateNode } from "@/util/rfEdges";
+import CircleNode from "@/util/circleNode";
+import ObjectNode from "@/util/objectNode";
+
+import '@/util/node.css'
+import ValueNode from "@/util/valueNode";
+
+const rfStyle = {
+  backgroundColor: '#eeeeee',
+};
+
+export default function Reactflow() {
+
+  const [nodes, setNodes] = useState(initialNodes);
+  const [edges, setEdges] = useState(initialEdges);
+
+  const [selectedNode, setSelectedNode] = useState("main");
+  const [selectedEdges, setSelectedEdges] = useState("main");
+
+  const nodeConfigurations = {
+    "main": rfStackMain,
+    "createStack": rfCreateStack,
+    "createNode": rfCreateNode,
+    "push": rfStackPush,
+    "pop": rfStackPop,
+    "dispose": rfStackDispose,
+    // usw.
+  };
+
+  const edgeConfigurations = {
+    "main": rfEdgesStackMain,
+    "createStack": rfEdgesCreateStack,
+    "createNode": rfEdgesCreateNode,
+    "push": rfEdgesStackPush,
+    "pop": rfEdgesStackPop,
+    "dispose": rfEdgesStackDispose,
+    // usw.
+  };
+
+  const nodeTypes = {
+    circleNode: CircleNode,
+    objectNode: ObjectNode,
+    valueNode: ValueNode,
+  };
+
+  const defaultEdgeOptions = {
+    style: { strokeWidth: 3, stroke: 'black' },
+    
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: 'black',
+    },
+  };
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
+  const onConnect = useCallback(
+    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    [setEdges]
+  );
+
+  const handleFunctionSelect = (e) => {
+    setSelectedNode(e.target.value);
+    setSelectedEdges(e.target.value);
+  };
+
+  useEffect(() => {
+    const newNodes = getNodesForSelection(selectedNode); // Implement this function
+    setNodes(newNodes);
+    const newEdges = getEdgesForSelection(selectedNode); // Implement this function
+    setEdges(newEdges);
+  }, [selectedNode, selectedEdges]);
+
+  function handleEditorDidMount(editor, monaco) {
+    editor.onDidChangeModelContent(() => {
+      const code = editor.getValue();
+      // Use the Langium parser here to generate the AST from the code
+      // Then update the Cytoscape canvas with the new AST data
+    });
+  }
+
+  function getNodesForSelection(selection) {
+    return nodeConfigurations[selection] || [];
+  }
+
+  function getEdgesForSelection(selection) {
+    return edgeConfigurations[selection] || [];
+  }
+
+  return (
+    <div>
+
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">ProofVisualization</a>
+          <div className="collapse navbar-collapse">
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="#">Documentation</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Showcase</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Playground</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">GitLab</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div className={styles.runButtonContainer}>
+        <button className={styles.runButton}>Run</button>
+      </div>
+
+      <main className={styles.main}>
+        <div className="row">
+
+          <div id="editor" className={styles.editor} >
+            <Editor
+              defaultLanguage="c"
+              defaultValue={defaultCode}
+              theme="vs-dark"
+              onMount={handleEditorDidMount}
+            />
+          </div>
 
 
-export default function Home() {
-    const cyRef = useRef(null);
-    var sbgnStylesheet = require('cytoscape-sbgn-stylesheet');
+          <div id="rf-container" className={styles.rfContainer} >
+            <select className={styles.nodeSelector} id="node-selector" onChange={handleFunctionSelect}>
+              <option value="main">main()</option>
+              <option value="createStack">createStack()</option>
+              <option value="createNode">createNode(int v)</option>
+              <option value="push">push(stack *s, int v)</option>
+              <option value="pop">pop(stack *s)</option>
+              <option value="dispose">dispose(stack *s)</option>
+            </select>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}              
+              defaultEdgeOptions={defaultEdgeOptions}
+              nodeTypes={nodeTypes}
+              fitView
+              style={rfStyle}
+              attributionPosition="top-right"
+            >
+             {/* <MiniMap /> */ }
+              <Controls/>
+              <Background />
+            </ReactFlow>
 
-    useEffect(() => {
-
-        cyRef.current = cytoscape({
-            container: document.getElementById('cy'),
-            style: cytoscapeStyles,
-            elements: cytoscapeDummyElements,
-        });
-
-        cyRef.current.style(cytoscapeStyles);
-        cyRef.current.layout({ name: 'cose' }).run();
-
-        document.getElementById('node-selector').addEventListener('change', function (event) {
-            var selectedOption = event.target.value;
-
-            // Clear the current elements in the cytoscape instance
-            cyRef.current.elements().remove();
-
-            // Based on the selected option, add new nodes and edges
-            switch (selectedOption) {
-                case 'main':
-                    cyRef.current.add(cytoscapeStackMain);
-                    cyRef.current.style(cytoscapeStackStyles);
-                    cyRef.current.layout({ name: 'cose' }).run(); // Apply the 'cose' layout to the elements 
-                    break;
-                case 'createStack':
-                    cyRef.current.add(cytoscapeStackCreateStack);
-                    cyRef.current.style(sbgnStyleSheet);
-                    break;
-                case 'createNode':
-                    cyRef.current.add(cytoscapeStackCreateNode);
-                    cyRef.current.style(sbgnStyleSheet);
-                    break;
-                case 'push':
-                    cyRef.current.add(cytoscapeStackPush);
-                    cyRef.current.style(sbgnStyleSheet);
-                    break;
-                case 'pop':
-                    cyRef.current.add(cytoscapeStackPop);
-                    cyRef.current.style(sbgnStyleSheet);
-                    break;
-                case 'dispose':
-                    cyRef.current.add(cytoscapeStackDispose);
-                    cyRef.current.style(sbgnStyleSheet);
-                    break;
-                default:
-                    console.log(`Sorry, we are out of ${expr}.`);
-            }
-
-
-            // ... und so weiter für jede Option
-        });
-    }, []);
-
-    function handleEditorDidMount(editor, monaco) {
-        editor.onDidChangeModelContent(() => {
-            const code = editor.getValue();
-            // Use the Langium parser here to generate the AST from the code
-            // Then update the Cytoscape canvas with the new AST data
-        });
-    }
-
-    return (
-        <div>
-
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="#">ProofVisualization</a>
-                    <div className="collapse navbar-collapse">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Documentation</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Showcase</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Playground</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">GitLab</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-            <div className={styles.runButtonContainer}>
-                <button className={styles.runButton}>Run</button>
-            </div>
-
-            <main className={styles.main}>
-                <div className="row">
-
-                    <div id="editor" className={styles.editor} >
-                        <Editor
-                            defaultLanguage="c"
-                            defaultValue={defaultCode}
-                            theme="vs-dark"
-                            onMount={handleEditorDidMount}
-                        />
-                    </div>
-
-
-                    <div id="cy-container" className={styles.cyContainer} >
-                        <select className={styles.nodeSelector} id="node-selector">
-                            <option value="main">main</option>
-                            <option value="createStack">createStack()</option>
-                            <option value="createNode">createNode()</option>
-                            <option value="push">push(s,v)</option>
-                            <option value="pop">pop(s)</option>
-                            <option value="dispose">dispose(s)</option>
-                        </select>
-                        <div className={styles.cy} id="cy" ref={cyRef}></div>
-
-                    </div>
-                </div>
-            </main >
-        </div >
-
-    );
+          </div>
+        </div>
+      </main >
+    </div >
+  )
 }
