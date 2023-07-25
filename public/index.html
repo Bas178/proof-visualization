@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset='utf-8'>
-        <!-- Page & Monaco styling -->
-        <link href="styles.css" rel="stylesheet"/>
-        <title>c-parser3 in Langium</title>
-    </head>
-    <body>
-        <!-- Add a button to update our AST, will invoke a globally accessible function -->
-        <div class="runButtonContainer">
-            <input class="runButton build" type="button" value="Run" onclick="window.generateAndDisplay()">
-        </div>
-        <div class="wrapper">
-            <!-- Monaco Root -->
-            <div id="monaco-editor-root"></div>
-        </div>
-    
-        
-        <!-- Monaco Configuration -->
-        <script type="module" src="setup.js"></script>
-    </body>
-    <footer>
-        
-    </footer>
+
+<head>
+    <meta charset='utf-8'>
+    <!-- Page & Monaco styling -->
+    <link href="styles.css" rel="stylesheet" />
+    <title>c-parser3 in Langium</title>
+</head>
+
+<body>
+    <!-- Add a button to update our AST, will invoke a globally accessible function -->
+    <div class="runButtonContainer">
+        <input class="runButton build" type="button" value="Run" onclick="window.generateAndDisplay()">
+    </div>
+    <div class="wrapper">
+        <!-- Monaco Root -->
+        <div id="monaco-editor-root"></div>
+    </div>
+    <!-- Monaco Configuration -->
+    <script type="module" src="setup.js"></script>
+</body>
+
 </html>

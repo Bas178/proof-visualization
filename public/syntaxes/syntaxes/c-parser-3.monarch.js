@@ -1,9 +1,9 @@
 // Monarch syntax highlighting for the c-parser-3 language.
-const symbolsStr = "!|!=|%|%=|&|&&|&\\*&|&=|\\(|\\)|\\*|\\*=|\\+|\\+\\+|\\+=|,|-|--|-=|->|\\.|\\.\\.\\.|/|/=|:|;|<|<<|<<=|<=|=|==|>|>=|>>|>>=|\\?|@\\*/|\\[|\\]|\\^|\\^=|\\{|\\||\\|->|\\|=|\\|\\||\\}|~/";
+const symbolsStr = "/!|!=|%|%=|&|&&|&\*&|&=|\(|\)|\*|\*=|\+|\+\+|\+=|,|-|--|-=|->|\.|\.\.\.|/|/=|:|;|<|<<|<<=|<=|=|==|>|>=|>>|>>=|\?|@\*/|\[|\]|\^|\^=|\{|\||\|->|\|=|\|\||\}|~/";
 const symbols = new RegExp(symbolsStr);
 export default {
     keywords: [
-        'abort', 'assert', 'bool', 'break', 'case', 'char', 'continue', 'default', 'do', 'double', 'else', 'false', 'float', 'for', 'free', 'goto', 'if', 'int', 'long', 'malloc', 'malloc_block_node', 'malloc_block_stack', 'printf', 'puts', 'return', 'scanf', 'short', 'signed', 'sizeof', 'stack_cnt', 'stack_head', 'struct', 'switch', 'true', 'unsigned', 'void', 'while'
+        'INT_MAX', 'abort', 'assert', 'bool', 'break', 'case', 'char', 'continue', 'default', 'do', 'double', 'else', 'false', 'float', 'for', 'free', 'goto', 'if', 'int', 'long', 'malloc', 'printf', 'puts', 'result', 'return', 'scanf', 'short', 'signed', 'sizeof', 'struct', 'switch', 'true', 'unsigned', 'void', 'while'
     ],
     operators: [
         '!', '!=', '%', '%=', '&', '&&', '&*&', '&=', '*', '*=', '+', '++', '+=', ',', '-', '--', '-=', '->', '.', '...', '/', '/=', ':', ';', '<', '<<', '<<=', '<=', '=', '==', '>', '>=', '>>', '>>=', '?', '@*/', '^', '^=', '|', '|->', '|=', '||', '~'
@@ -11,6 +11,7 @@ export default {
     symbols: symbols,
     tokenizer: {
         initial: [
+            { regex: /malloc_block_/, action: { "token": "VF_MALLOC" } },
             { regex: /[_a-zA-Z][\w_]*/, action: { cases: { '@keywords': { "token": "keyword" }, '@default': { "token": "ID" } } } },
             { regex: /[0-9]+/, action: { "token": "number" } },
             { regex: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/, action: { "token": "string" } },

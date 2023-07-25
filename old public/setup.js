@@ -41,7 +41,7 @@ const generateAndDisplay = (async () => {
     updateAST(ast);
 });
 
-// Updates the parser3 
+// Updates the mini-logo canvas
 window.generateAndDisplay = generateAndDisplay;
 
 // Takes generated AST, and process it
@@ -49,4 +49,5 @@ function updateAST(ast) {
     // print the commands out, so we can verify what we have received.
     // TODO, will change in th next section...
     console.log("AST: ",ast);
+    window.parent.postMessage(ast, '*');
 }

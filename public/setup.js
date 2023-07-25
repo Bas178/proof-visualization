@@ -41,7 +41,7 @@ const generateAndDisplay = (async () => {
     updateAST(ast);
 });
 
-// Updates the mini-logo canvas
+// Updates the parser3 
 window.generateAndDisplay = generateAndDisplay;
 
 // Takes generated AST, and process it

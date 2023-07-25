@@ -31,84 +31,6 @@ const nodeTypes = {
     valueNode: ValueNode,
 };
 
-function cleanTree(obj, depth = 0, maxDepth = 5) {
-    if (depth > maxDepth) return obj;
-    for (let key in obj) {
-        if (key === '$cstNode' || key === '$document' || key === '$container'
-        ) {
-            delete obj[key];
-        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-            cleanTree(obj[key], depth + 1, maxDepth);
-        }
-    }
-}
-
-
-function generateNodesFromAst(ast) {
-
-    const nodes = [];
-    let topleveldeclaration = ast.tdecl;
-    console.log("topleveldeclaration: ", topleveldeclaration)
-    let helpAST = ast;
-    const newAST = cleanTree(helpAST);
-
-    console.log("newAST: ", newAST)
-
-
-    // AST Rekursiv durchlaufen
-    function traverse(node, parentId) {
-        // Erstelle einen neuen Knoten mit den benötigten Eigenschaften
-        const newNode = {
-            id: nodes.length, // die ID ist die aktuelle Länge des nodes Arrays
-            type: node.$type, // der Typ des Knotens ist in der $type Eigenschaft
-            parentId, // die parentId wird von der aufrufenden Funktion bereitgestellt
-            // füge hier weitere Eigenschaften hinzu, die du visualisieren möchtest
-        };
-
-        nodes.push(newNode); // den neuen Knoten zum nodes Array hinzufügen
-
-        // Liste der Eigenschaften, auf die sich die Rekursion beschränken soll
-        const allowedProperties = ['tdecl', 'cs', 've'];
-
-        // Gehe durch alle Eigenschaften des aktuellen Knotens im AST
-        for (let key in node) {
-            // Überprüfe, ob die Eigenschaft in der Liste der erlaubten Eigenschaften ist
-            if (allowedProperties.includes(key)) {
-                // Wenn die Eigenschaft ein Objekt ist, dann rufe die traverse Funktion darauf auf
-                if (node[key] instanceof Object) {
-                    traverse(node[key], newNode.id);
-                }
-            }
-        }
-
-
-        traverse(topleveldeclaration, null); // beginne mit dem obersten Knoten im AST (parentId ist null)
-        return nodes;
-    }
-}
-
-function generateEdgesFromAst(nodes) {
-    // Überprüfen Sie, ob nodes definiert ist und ob es sich um ein Array handelt
-    if (nodes === undefined || nodes === null) {
-        console.error('nodes is undefined or null');
-        return [];
-    }
-    if (!Array.isArray(nodes)) {
-        console.error('nodes is not an array:', nodes);
-        return [];
-    }
-    const edges = [];
-
-    // Gehe durch alle Knoten
-    for (let node of nodes) {
-        // Wenn der Knoten eine parentId hat, erstelle eine Kante von der parentId zu der aktuellen id
-        if (node.parentId !== null) {
-            edges.push({ from: node.parentId, to: node.id });
-        }
-    }
-
-    return edges;
-}
 
 function cleanAST(node) {
     let seen = new Set(); // um zyklische Referenzen zu vermeiden
@@ -134,10 +56,67 @@ function cleanAST(node) {
     }
 }
 
+const baseNode = {
+    id: '',
+    data: { label: '' },
+    position: { x: 0, y: 0 },
+    className: '',
+    style: {},
+};
+
+function generateNodes(parsedData) {
+    let nodes = [];
+    let edges = [];
+    console.log("parsedData: ", parsedData)
+    // Iterate over the array `vee` in the data
+    parsedData.vee.forEach((item, index) => {
+        console.log("item: ", item)
+        let node = { ...baseNode };  // Kopiere die Basis Knotenstruktur
+
+        // Update the node based on the specific data
+        switch (item.$type) {
+            case "VeriFastExpression":
+                // Process the "VeriFastExpression" and create corresponding nodes and edges
+                if (item.vffuncref) {
+                    node.id = 'stack';
+                    node.data.label = 'result:stack';
+                    node.position = { x: 100, y: 100 };
+                    node.className = 'light';
+                    node.style = { backgroundColor: 'rgba(124, 252, 0, 0.2)', width: 200, height: 100 };
+
+                    // Adding the components to the list of nodes
+                    nodes.push(node);
+
+                    // Create nodes for the struct components
+                    item.vffuncref.vfstruct.ref.sdl.list.forEach((component, cIndex) => {
+                        let compNode = { ...baseNode };
+
+                        compNode.id = 'stack-var' + cIndex;  // Benutze Index für eindeutige ID
+                        compNode.type = 'objectNode';
+                        compNode.data.label = component.name + '=0';
+                        compNode.position = { x: 20, y: 50 + 50 * cIndex }; // Verteile die Knoten gleichmäßig vertikal
+                        compNode.parentNode = 'stack';
+                        compNode.extent = 'parent';
+
+                        nodes.push(compNode);
+                    });
+                }
+                break;
+            // Add more cases for other $type values...
+            default:
+                break;
+        }
+    });
+
+    // Further logic for creating edges added here...
+
+    return { nodes, edges };
+}
 
 
 
-export default function Home() {
+
+export default function Prototype() {
 
 
 
@@ -148,6 +127,7 @@ export default function Home() {
     const [ast, setAst] = useState({});
     const [selectedNode, setSelectedNode] = useState("main");
     const [selectedEdges, setSelectedEdges] = useState("main");
+    const [functionNames, setFunctionNames] = useState([]);
 
     const [client, setClient] = useState(null);
 
@@ -178,16 +158,34 @@ export default function Home() {
         let ast = originalAst;
         cleanAST(ast);
         setAst(ast)
-        const newNodes = generateNodesFromAst(ast);
-        console.log("generateNodesFromAst: ", newNodes);
-        const newEdges = generateEdgesFromAst(ast);
-        console.log("generateEdgesFromAst: ", newEdges);
 
-        // Aktualisieren Sie Ihren Graphen mit den neuen Daten
-        setNodes(newNodes);
-        setEdges(newEdges);
         console.log("AST after cleanup: ", ast)
+        if (ast.tdecl) {
+            // Extract the TopLevelDeclarations
+            let topLevelDeclarations = ast.tdecl;
+
+            // Filter all functions
+            let functions = topLevelDeclarations.filter(decl => decl.$type === 'FunctionDeclaration');
+
+            // Extract the names of the functions
+            let functionNames = functions.map(func => func.name);
+
+            // Put the function names in the state 
+            setFunctionNames(functionNames);
+
+        }
     }, [originalAst]);
+
+    useEffect(() => {
+        if (ast.tdecl) {
+            console.log("ast.tdecl[2]: ", ast.tdecl[2])
+            const generated = generateNodes(ast.tdecl[2]);
+            console.log("generate Nodes: ", generated)
+            //setElements([...generated.nodes, ...generated.edges]);
+            setNodes(generated.nodes)
+            setEdges(generated.edges)
+        }
+    }, [ast]);
 
     const defaultEdgeOptions = {
         style: { strokeWidth: 3, stroke: 'black' },
@@ -290,12 +288,7 @@ export default function Home() {
                                 <Tab.Pane eventKey="second" >
                                     <div className={styles.rfTab}>
                                         <select className={styles.nodeSelector} id="node-selector" onChange={handleFunctionSelect}>
-                                            <option value="main">main()</option>
-                                            <option value="createStack">createStack()</option>
-                                            <option value="createNode">createNode(int v)</option>
-                                            <option value="push">push(stack *s, int v)</option>
-                                            <option value="pop">pop(stack *s)</option>
-                                            <option value="dispose">dispose(stack *s)</option>
+                                            {functionNames.map(name => <option key={name} value={name}>{name}()</option>)}
                                         </select>
 
                                         <ReactFlow
