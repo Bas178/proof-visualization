@@ -19,7 +19,8 @@ import '@/util/node.css'
 import ValueNode from "@/util/valueNode";
 import ASTree from "@/util/jsonTree";
 
-import MonacoEditor from '../monaco-editor';
+//import MonacoEditor from '../monaco-editor';
+import DynamicMonaco from "@/app/prototype/dynamicMonaco";
 
 const rfStyle = {
     backgroundColor: 'white',
@@ -264,13 +265,15 @@ export default function Prototype() {
 
             <main className={styles.main}>
                 <div className="row">
-
+                   
                     <div id="editor" className={styles.editor} >
 
                         <iframe src="/index.html" width="100%" height="100%"></iframe>
 
                     </div>
+                    
 
+                  
                     <div id="rf-container" className={styles.rfContainer} >
                         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                             <Nav variant="pills" className="flex-row">
