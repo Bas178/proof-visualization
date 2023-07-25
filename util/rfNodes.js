@@ -118,7 +118,7 @@ export const rfCreateNode = [
 export const rfStackPush = [
 
     { id: 'stack', data: { label: 's:stack' }, position: { x: 200, y: 0 }, className: 'light', style: { width: 200, height: 100 }, },
-    { id: 'stack-var', type: 'objectNode', data: { label: <>cnt = ?c <strong>{'~>'}</strong> ?c+1</> }, position: { x: 20, y: 50 }, parentNode: 'stack', extent: 'parent', style: { backgroundColor: 'purple', }, },
+    { id: 'stack-var', type: 'objectNode', data: { label: <>cnt = ?c <strong>{'~>'}</strong> ?c+1</>, labelColor: 'white' }, position: { x: 20, y: 50 }, parentNode: 'stack', extent: 'parent', style: { backgroundColor: 'purple', }, },
     { id: 'node0', data: { label: '?n:node' }, position: { x: 0, y: 300 }, className: 'light', style: { backgroundColor: 'rgba(124, 252, 0, 0.2)', width: 200, height: 100 }, },
     { id: 'node-var', type: 'objectNode', data: { label: 'value=v' }, position: { x: 20, y: 50 }, parentNode: 'node0', extent: 'parent', },
     { id: 'node1', data: { label: '?h:node' }, position: { x: 250, y: 500 }, },
@@ -132,7 +132,7 @@ export const rfStackPush = [
 
 export const rfStackPop = [
     { id: 'stack', type: 'input', data: { label: 's:stack' }, position: { x: 200, y: 0 }, className: 'light', style: { width: 200, height: 100 }, },
-    { id: 'stack-var', type: 'objectNode', data: { label: <>cnt = ?c <strong>{'~>'}</strong> ?c-1</> }, position: { x: 50, y: 50 }, parentNode: 'stack', extent: 'parent', style: { backgroundColor: 'purple', }, },
+    { id: 'stack-var', type: 'objectNode', data: { label: <>cnt = ?c <strong>{'~>'}</strong> ?c-1</>, labelColor: 'white' }, position: { x: 50, y: 50 }, parentNode: 'stack', extent: 'parent', style: { backgroundColor: 'purple', }, },
     { id: 'node0', type: 'output', data: { label: '?n:node' }, position: { x: 250, y: 500 }, className: 'light', style: { backgroundColor: '', width: 200, height: 100 }, },
     { id: 'nullpointer', type: 'circleNode', draggable: false, data: { label: '⏊' }, position: { x: 140, y: 0 }, style: { width: 20, height: 20 }, parentNode: 'node0', extent: 'parent', },
     { id: 'node1', data: { label: '?he:node' }, position: { x: 0, y: 300 }, style: { backgroundColor: 'rgba(255, 0, 0, 0.2)', width: 200, height: 100 }, },

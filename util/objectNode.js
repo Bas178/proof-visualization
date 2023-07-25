@@ -8,7 +8,7 @@ function ObjectNode({ data, isConnectable  })
     
       
       <div className="object-node" style={{backgroundColor: data.backgroundColor, display: 'flex', justifyContent: 'center', border: data.borderStyle,  }}>
-        <label style={{color: data.labelColor}}>{data.label}</label>        
+        <label style={{color: data.labelColor, padding:'5px'}}>{data.label}</label>        
       </div>
       
       
