@@ -21,6 +21,7 @@ import ASTree from "@/util/jsonTree";
 
 //import MonacoEditor from '../monaco-editor';
 import DynamicMonaco from "@/app/prototype/dynamicMonaco";
+import {createVisualization} from "./analyzeCodeStructure";
 
 const rfStyle = {
     backgroundColor: 'white',
@@ -46,7 +47,7 @@ function cleanAST(node) {
         if (typeof current === 'object' && current !== null) { // überprüfe, ob es ein Objekt ist
             for (let key in current) {
                 if (current.hasOwnProperty(key)) {
-                    if (key === '$cstNode' || key === '$document' || key === '$container' || key === '$containerIndex' || key === '$containerProperty') {
+                    if (key === '$cstNode' || key === '$document' || key === '$container' || key === '$containerIndex' || key === '$containerProperty' || key === '$nodeDescription' || key === '$refNode' || key === '_nodeDescription'    ) {
                         delete current[key]; // lösche unerwünschte Eigenschaften
                     } else if (typeof current[key] === 'object') {
                         stack.push(current[key]); // füge Kindknoten zum Stapel hinzu
@@ -176,17 +177,169 @@ export default function Prototype() {
 
         }
     }, [originalAst]);
-
+/*
     useEffect(() => {
         if (ast.tdecl) {
+            /*
             console.log("ast.tdecl[2]: ", ast.tdecl[2])
             const generated = generateNodes(ast.tdecl[2]);
             console.log("generate Nodes: ", generated)
             //setElements([...generated.nodes, ...generated.edges]);
             setNodes(generated.nodes)
             setEdges(generated.edges)
+        *//*
+
+
+            // Finde die Funktionsdeklaration
+            const functionDeclarations = ast.tdecl.filter(node => node.$type === "FunctionDeclaration");
+            // Erstelle die Visualisierungsobjekte für jede Funktion
+            const visualizations = functionDeclarations.map(func => {
+                const links = [];
+                const nodes = [];
+
+                // Behandle sowohl die "requires" als auch die "ensures" Teile des Vertrags
+                const veriFastRequiresExpressions = func.ver;
+
+                veriFastRequiresExpressions.forEach(expr => {
+                    const node = {
+                        name: '',
+                        type: '',
+                        variables: {}
+                    };
+                    if (
+                        expr.$type === "VeriFastExpression" &&
+                        expr.vfstatement?.$type === "VeriFastStatement" &&
+                        expr.vfstatement.lexp?.$type === "ComponentArrowAccess"
+                    ) {
+
+                        console.log("VeriFastExpression: ", expr);
+                        const receiverRef = expr.vfstatement.lexp.receiver.ref.ref;
+                        console.log("receiverRef: ", receiverRef);
+                        const receiverName = receiverRef.$refText;
+                        console.log("receiverName: ", receiverName);
+                        const receiverType = receiverRef.ref.type?.structRef?.$refText;
+                        console.log("receiverType: ", receiverType);
+
+                        const componentArrow = expr.vfstatement.lexp.compArrow;
+                        console.log("componentArrow: ", componentArrow);
+                        const componentName = componentArrow.$refText;
+                        //console.log("componentName: ", componentName);
+                        const variableName = expr.vfstatement.vdecl.name;
+                        //console.log("variableName: ", variableName);
+                        const variableType = componentArrow.ref.tr.structRef?.$refText
+                        //console.log("variableType: ", variableType);
+
+                        // Bestimmen Sie den Typ der Komponente
+                        const componentType = componentArrow.ref.tr.$type; // "StructTypeRef" || "PredefinedTypeRef"
+                        //console.log("componentType: ", componentType);
+
+
+
+                        if (componentType === "PredefinedTypeRef") {
+
+                            // Füllen Sie das Knotenobjekt aus
+                            console.log("receiverName: ", receiverName);
+                            node.name = receiverName;
+                            node.type = receiverType; // Hier können Sie den Typ festlegen, wenn Sie ihn kennen
+                            // Speichere die Verbindung zu einer primitiven Variable
+                            node.variables[componentName] = `${variableName}`;
+                            const nodeIndex = nodes.findIndex(n => n.name === receiverName);
+                            if (nodeIndex >= 0) {
+                                (receiverType !== undefined) ? nodes[nodeIndex].type = receiverType : {};
+                                node.variables[componentName] = `${variableName}`;
+                            } else {
+                                // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
+                                nodes.push(node);
+                            }
+                            nodes.push(node);
+
+                        } else if (componentType === "StructTypeRef") {
+                            // Speichere die Verbindungen wie bisher zu einer "node or null" Variable
+
+                            //node.variables[componentName] = `${variableName}`;
+
+                            links.push({
+                                from: `${receiverName}:${receiverType}`,
+                                linkName: componentName,
+                                to: `${variableName}:${variableType}`
+                            });
+                        }
+
+                    } else if (expr.$type === "VeriFastExpression" && expr.vffuncref?.$type === "VeriFastFunctionRef") {
+                        console.log("VeriFastFunctionRef: ");
+
+                        const receiverName = expr.vffuncref.args[0].loe.expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].exp[0].exp[0].pexp.ref.ref.ref.name;
+                        console.log("receiverName: ", receiverName);
+                        const receiverType = expr.vffuncref.vfstruct.$refText;
+                        console.log("receiverType: ", receiverType);
+                        console.log("nodes: ", nodes);
+
+                        const nodeIndex = nodes.findIndex(n => n.name === receiverName);
+                        if (nodeIndex >= 0) {
+                            nodes[nodeIndex].type = receiverType;
+                        } else {
+                            // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
+                            nodes.push({
+                                name: receiverName,
+                                type: receiverType,
+                                variables: {} // Initialisieren Sie 'variables' oder legen Sie es gemäß Ihren Anforderungen fest
+                            });
+                        }
+                    }
+                });
+
+
+
+
+                return {
+                    functionName: func.name,
+                    visualization: {
+                        links: links,
+                        node: nodes
+                    }
+                };
+            });
+
+            // Jetzt sollte visualizations die Strukturen für die Visualisierung enthalten
+            console.log("visualizations: ", visualizations);
+
+
         }
+
     }, [ast]);
+*/
+
+useEffect(() => {
+    if (ast.tdecl) {
+      // Finde die Funktionsdeklaration
+      const functionDeclarations = ast.tdecl.filter(node => node.$type === "FunctionDeclaration");
+      // Erstelle die Visualisierungsobjekte für jede Funktion
+      const visualizations = functionDeclarations.map(func => {
+        // Funktion zur Handhabung von "requires" oder "ensures"
+       
+  
+        // "requires" Teil des Vertrags
+        console.log("*****  verVisualization:  *****");
+        const verVisualization = createVisualization(func.ver);
+        console.log("verVisualization:", verVisualization);
+  
+        // "ensures" Teil des Vertrags (anpassen, wenn nötig)
+        console.log("*****  veeVisualization:  *****");
+        const veeVisualization = createVisualization(func.vee);
+        console.log("veeVisualization:", veeVisualization);
+  
+        return {
+          functionName: func.name,
+          ver: verVisualization, // "requires" Visualisierung
+          vee: veeVisualization  // "ensures" Visualisierung
+        };
+      });
+  
+      // Jetzt sollte visualizations die Strukturen für die Visualisierung enthalten
+      console.log("visualizations:", visualizations);
+    }
+  }, [ast]);
+  
 
     const defaultEdgeOptions = {
         style: { strokeWidth: 3, stroke: 'black' },
@@ -265,15 +418,15 @@ export default function Prototype() {
 
             <main className={styles.main}>
                 <div className="row">
-                   
+
                     <div id="editor" className={styles.editor} >
 
                         <iframe src="/index.html" width="100%" height="100%"></iframe>
 
                     </div>
-                    
 
-                  
+
+
                     <div id="rf-container" className={styles.rfContainer} >
                         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                             <Nav variant="pills" className="flex-row">
