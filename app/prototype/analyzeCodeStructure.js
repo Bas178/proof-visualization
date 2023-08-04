@@ -39,7 +39,7 @@ export const createVisualization = (expressions) => {
             //console.log('Right Expression:', rightExpression); // "c + 1"
             //console.log("expr.vfstatement: ", expr.vfstatement);
             const variableName = (expr.vfstatement.vdecl) ? expr.vfstatement.vdecl.name : (expr.vfstatement.rexp) ? extractExpression(expr.vfstatement.rexp) : null;
-            console.log("variableName: ", variableName);
+            //console.log("variableName: ", variableName);
 
             const variableType = componentArrow.ref.tr.structRef?.$refText
             //console.log("variableType: ", variableType);
@@ -73,7 +73,7 @@ export const createVisualization = (expressions) => {
                 link.from = `${receiverName}:${(receiverType)?receiverType:componentArrowType}`;
                 link.linkName = componentName;
                 link.to = `${variableName}:${variableType}`;
-                console.log("link: ", link);
+                //console.log("link: ", link);
                 links.push(link);
                 /*
                 links.push({
@@ -118,19 +118,19 @@ function extractExpression(expr) {
     //console.log("extractExpression(expr): ", expr);
     // Falls wir an der Stelle sind, wo wir den Namen der Variable finden können
     if (expr !== undefined && expr.$type === 'VariableReference' && expr.ref && expr.ref.ref && expr.ref.ref.name) {
-        console.log("expr !== undefined && expr.$type === 'VariableReference' && expr.ref && expr.ref.ref && expr.ref.ref.name: ", expr.ref.ref.name);
+        //console.log("expr !== undefined && expr.$type === 'VariableReference' && expr.ref && expr.ref.ref && expr.ref.ref.name: ", expr.ref.ref.name);
         return expr.ref.ref.name;
     }
 
     // Falls wir an der Stelle sind, wo wir den konstanten Wert finden können
     if (expr !== undefined && expr.$type === 'ConstantExpression' && expr.c) {
-        console.log("expr !== undefined && expr.$type === 'ConstantExpression' && expr.c: ", expr.c);
+        //console.log("expr !== undefined && expr.$type === 'ConstantExpression' && expr.c: ", expr.c);
         return expr.c;
     }
 
     // Falls wir einen Additiven Ausdruck haben
     if (expr !== undefined && expr.$type === 'AdditiveExpression' && expr.exp && expr.exp.length === 2 && expr.opl && expr.opl.length === 1) {
-        console.log("expr !== undefined && expr.$type === 'AdditiveExpression' && expr.exp && expr.opl: ", expr);
+        //console.log("expr !== undefined && expr.$type === 'AdditiveExpression' && expr.exp && expr.opl: ", expr);
         const left = extractExpression(expr.exp[0]);
         const operator = expr.opl[0];
         const right = extractExpression(expr.exp[1]);

@@ -47,7 +47,7 @@ function cleanAST(node) {
         if (typeof current === 'object' && current !== null) { // überprüfe, ob es ein Objekt ist
             for (let key in current) {
                 if (current.hasOwnProperty(key)) {
-                    if (key === '$cstNode' || key === '$document' || key === '$container' || key === '$containerIndex' || key === '$containerProperty' || key === '$nodeDescription' || key === '$refNode' || key === '_nodeDescription'    ) {
+                    if (key === '$cstNode' || key === '$document' || key === '$container' || key === '$containerIndex' || key === '$containerProperty' || key === '$nodeDescription' || key === '$refNode' || key === '_nodeDescription' || key === 'error'   ) {
                         delete current[key]; // lösche unerwünschte Eigenschaften
                     } else if (typeof current[key] === 'object') {
                         stack.push(current[key]); // füge Kindknoten zum Stapel hinzu
@@ -319,14 +319,14 @@ useEffect(() => {
        
   
         // "requires" Teil des Vertrags
-        console.log("*****  verVisualization:  *****");
+        //console.log("*****  verVisualization:  *****");
         const verVisualization = createVisualization(func.ver);
-        console.log("verVisualization:", verVisualization);
+        //console.log("verVisualization:", verVisualization);
   
         // "ensures" Teil des Vertrags (anpassen, wenn nötig)
-        console.log("*****  veeVisualization:  *****");
+        //console.log("*****  veeVisualization:  *****");
         const veeVisualization = createVisualization(func.vee);
-        console.log("veeVisualization:", veeVisualization);
+        //console.log("veeVisualization:", veeVisualization);
   
         return {
           functionName: func.name,
