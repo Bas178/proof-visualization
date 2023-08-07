@@ -6,7 +6,8 @@ export const createVisualization = (expressions) => {
         const node = {
             name: '',
             type: '',
-            variables: {}
+            variables: {},
+            isnull: false
         };
         const link ={
             from: '',
@@ -53,19 +54,24 @@ export const createVisualization = (expressions) => {
             if (componentType === "PredefinedTypeRef") {
 
                 // Füllen Sie das Knotenobjekt aus
-                //console.log("receiverName: ", receiverName);
+                console.log("if componentType: ", componentType);
+                
                 node.name = receiverName;
                 node.type = receiverType; // Hier können Sie den Typ festlegen, wenn Sie ihn kennen
                 // Speichere die Verbindung zu einer primitiven Variable
                 node.variables[componentName] = `${variableName}`;
+                //console.log("node: ", node);
+                //console.log("nodes: ", nodes);
                 const nodeIndex = nodes.findIndex(n => n.name === receiverName);
+                //console.log("nodeIndex: ", nodeIndex);
                 if (nodeIndex >= 0) {
                     (receiverType !== undefined) ? nodes[nodeIndex].type = receiverType : {};
-                    node.variables[componentName] = `${variableName}`;
+                    nodes[nodeIndex].variables[componentName] = `${variableName}`;
                 } else {
                     // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
                     nodes.push(node);
                 }
+
 
 
             } else if (componentType === "StructTypeRef") {
@@ -73,15 +79,23 @@ export const createVisualization = (expressions) => {
                 link.from = `${receiverName}:${(receiverType)?receiverType:componentArrowType}`;
                 link.linkName = componentName;
                 link.to = `${variableName}:${variableType}`;
-                //console.log("link: ", link);
+                //console.log("variableName: ", variableName);
+                //console.log("nodes: ", nodes);
                 links.push(link);
-                /*
-                links.push({
-                    from: `${receiverName}:${receiverType}`,
-                    linkName: componentName,
-                    to: `${variableName}:${variableType}`
-                });
-                */
+                
+                const nodeIndex = nodes.findIndex(n => n.name === variableName);
+                //console.log("nodeIndex: ", nodeIndex);
+                if (nodeIndex >= 0) {
+                    (componentArrowType !== undefined) ? nodes[nodeIndex].type = componentArrowType : {};
+                    
+                } else {
+                    // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
+                    node.name = variableName;
+                    node.type = componentArrowType;
+                    node.isnull = true;
+                    nodes.push(node);
+                }
+                
             }
 
         } else if (expr.$type === "VeriFastExpression" && expr.vffuncref?.$type === "VeriFastFunctionRef") {

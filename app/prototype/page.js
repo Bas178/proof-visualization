@@ -23,6 +23,7 @@ import ASTree from "@/util/jsonTree";
 import DynamicMonaco from "@/app/prototype/dynamicMonaco";
 import { createVisualization } from "./analyzeCodeStructure";
 import { convertToReactFlowFormat } from "./convertToReactFlowFormat"
+import { formatArgs } from "./formatArgs";
 
 const rfStyle = {
     backgroundColor: 'white',
@@ -319,6 +320,7 @@ console.log("visualizations: ", visualizations);
             // Erstelle die Visualisierungsobjekte für jede Funktion
             const visualizations = functionDeclarations.map(func => {
                 // Funktion zur Handhabung von "requires" oder "ensures"
+                console.log("func: ",func)
 
 
                 // "requires" Teil des Vertrags
@@ -331,8 +333,11 @@ console.log("visualizations: ", visualizations);
                 const veeVisualization = createVisualization(func.vee);
                 //console.log("veeVisualization:", veeVisualization);
 
+                let argumente = (func.ptl && func.ptl.plist && func.ptl.plist.pdlist) ? formatArgs(func.ptl.plist.pdlist) : null;
+                let funktionsAufruf = `${func.name}(${argumente || ''})`;
+
                 return {
-                    functionName: func.name,
+                    functionName: funktionsAufruf, //func.name,
                     ver: verVisualization, // "requires" Visualisierung
                     vee: veeVisualization  // "ensures" Visualisierung
                 };

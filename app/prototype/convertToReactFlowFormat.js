@@ -1,3 +1,5 @@
+import { MarkerType, } from 'reactflow';
+
 export function convertToReactFlowFormat(functionData) {
     console.log("convertToReactFlowFormat functionData: ", functionData)
 let cnt = 0;
@@ -30,7 +32,9 @@ let cnt = 0;
         source: link.from.split(':')[0],
         target: link.to.split(':')[0],
         animated: true,
-        style: { stroke: 'red' }
+        style: { stroke: 'red' },
+        markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10, color: 'red', }, 
+        label: link.linkName,
     }));
 
     let postNodes = [];
@@ -61,7 +65,9 @@ let cnt = 0;
         source: link.from.split(':')[0],
         target: link.to.split(':')[0],
         animated: true,
-        style: { stroke: 'green' }
+        style: { stroke: 'green' },
+        markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10, color: 'green', }, 
+        label: link.linkName,
     }));
 
     // Merge pre and post nodes and edges
@@ -71,14 +77,25 @@ let cnt = 0;
    nodes = nodes.reduce((uniqueNodes, node) => {
     const existingNode = uniqueNodes.find(uniqueNode => uniqueNode.id === node.id);
     if (existingNode) {
-        // If the node is a variable node and exists in both lists, merge their labels
-        if (node.parentNode && existingNode.data.label !== node.data.label) {
-            existingNode.data.label += ` ~> ${node.data.label.split(' = ').pop()}`;
-        }
         // If the node exists in both lists, set color to neutral
         if (existingNode.style) {
             existingNode.style.backgroundColor = 'white';
         }
+        // If the node is a variable node and exists in both lists, merge their labels
+        if (node.parentNode && existingNode.data.label !== node.data.label) {
+            existingNode.data.label += ` ~> ${node.data.label.split(' = ').pop()}`;
+            existingNode.data.labelColor = 'white';
+            if (!existingNode.style) {
+                existingNode.style = {};
+            }
+            existingNode.style.backgroundColor = 'purple';
+            if (!existingNode.type) {
+                existingNode.type = {};
+            }
+            existingNode.type = 'objectNode';
+        }
+        
+        
     } else {
         uniqueNodes.push(node);
     }
@@ -91,7 +108,7 @@ edges = edges.reduce((uniqueEdges, edge) => {
     if (existingEdge) {
         // If the edge exists in both lists, set color to neutral
         if (existingEdge.style) {
-            existingEdge.style.stroke = 'neutral';
+            existingEdge.style.stroke = 'black';
         }
     } else {
         uniqueEdges.push(edge);
