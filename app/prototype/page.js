@@ -1,7 +1,7 @@
 'use client'
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
 import { Tab, Nav } from 'react-bootstrap';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import styles from './page.module.css'
 import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges, Background, MarkerType, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
@@ -21,7 +21,8 @@ import ASTree from "@/util/jsonTree";
 
 //import MonacoEditor from '../monaco-editor';
 import DynamicMonaco from "@/app/prototype/dynamicMonaco";
-import {createVisualization} from "./analyzeCodeStructure";
+import { createVisualization } from "./analyzeCodeStructure";
+import { convertToReactFlowFormat } from "./convertToReactFlowFormat"
 
 const rfStyle = {
     backgroundColor: 'white',
@@ -47,7 +48,7 @@ function cleanAST(node) {
         if (typeof current === 'object' && current !== null) { // überprüfe, ob es ein Objekt ist
             for (let key in current) {
                 if (current.hasOwnProperty(key)) {
-                    if (key === '$cstNode' || key === '$document' || key === '$container' || key === '$containerIndex' || key === '$containerProperty' || key === '$nodeDescription' || key === '$refNode' || key === '_nodeDescription' || key === 'error'   ) {
+                    if (key === '$cstNode' || key === '$document' || key === '$container' || key === '$containerIndex' || key === '$containerProperty' || key === '$nodeDescription' || key === '$refNode' || key === '_nodeDescription' || key === 'error') {
                         delete current[key]; // lösche unerwünschte Eigenschaften
                     } else if (typeof current[key] === 'object') {
                         stack.push(current[key]); // füge Kindknoten zum Stapel hinzu
@@ -133,6 +134,8 @@ export default function Prototype() {
 
     const [client, setClient] = useState(null);
 
+    const [data, setData] = useState([]); // Zustand für Daten
+    const [selectedFunction, setSelectedFunction] = useState(null);
 
     useEffect(() => {
         function handleReceiveMessage(event) {
@@ -177,169 +180,184 @@ export default function Prototype() {
 
         }
     }, [originalAst]);
-/*
+    /*
+        useEffect(() => {
+            if (ast.tdecl) {
+                /*
+                console.log("ast.tdecl[2]: ", ast.tdecl[2])
+                const generated = generateNodes(ast.tdecl[2]);
+                console.log("generate Nodes: ", generated)
+                //setElements([...generated.nodes, ...generated.edges]);
+                setNodes(generated.nodes)
+                setEdges(generated.edges)
+            *//*
+
+
+// Finde die Funktionsdeklaration
+const functionDeclarations = ast.tdecl.filter(node => node.$type === "FunctionDeclaration");
+// Erstelle die Visualisierungsobjekte für jede Funktion
+const visualizations = functionDeclarations.map(func => {
+    const links = [];
+    const nodes = [];
+
+    // Behandle sowohl die "requires" als auch die "ensures" Teile des Vertrags
+    const veriFastRequiresExpressions = func.ver;
+
+    veriFastRequiresExpressions.forEach(expr => {
+        const node = {
+            name: '',
+            type: '',
+            variables: {}
+        };
+        if (
+            expr.$type === "VeriFastExpression" &&
+            expr.vfstatement?.$type === "VeriFastStatement" &&
+            expr.vfstatement.lexp?.$type === "ComponentArrowAccess"
+        ) {
+
+            console.log("VeriFastExpression: ", expr);
+            const receiverRef = expr.vfstatement.lexp.receiver.ref.ref;
+            console.log("receiverRef: ", receiverRef);
+            const receiverName = receiverRef.$refText;
+            console.log("receiverName: ", receiverName);
+            const receiverType = receiverRef.ref.type?.structRef?.$refText;
+            console.log("receiverType: ", receiverType);
+
+            const componentArrow = expr.vfstatement.lexp.compArrow;
+            console.log("componentArrow: ", componentArrow);
+            const componentName = componentArrow.$refText;
+            //console.log("componentName: ", componentName);
+            const variableName = expr.vfstatement.vdecl.name;
+            //console.log("variableName: ", variableName);
+            const variableType = componentArrow.ref.tr.structRef?.$refText
+            //console.log("variableType: ", variableType);
+
+            // Bestimmen Sie den Typ der Komponente
+            const componentType = componentArrow.ref.tr.$type; // "StructTypeRef" || "PredefinedTypeRef"
+            //console.log("componentType: ", componentType);
+
+
+
+            if (componentType === "PredefinedTypeRef") {
+
+                // Füllen Sie das Knotenobjekt aus
+                console.log("receiverName: ", receiverName);
+                node.name = receiverName;
+                node.type = receiverType; // Hier können Sie den Typ festlegen, wenn Sie ihn kennen
+                // Speichere die Verbindung zu einer primitiven Variable
+                node.variables[componentName] = `${variableName}`;
+                const nodeIndex = nodes.findIndex(n => n.name === receiverName);
+                if (nodeIndex >= 0) {
+                    (receiverType !== undefined) ? nodes[nodeIndex].type = receiverType : {};
+                    node.variables[componentName] = `${variableName}`;
+                } else {
+                    // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
+                    nodes.push(node);
+                }
+                nodes.push(node);
+
+            } else if (componentType === "StructTypeRef") {
+                // Speichere die Verbindungen wie bisher zu einer "node or null" Variable
+
+                //node.variables[componentName] = `${variableName}`;
+
+                links.push({
+                    from: `${receiverName}:${receiverType}`,
+                    linkName: componentName,
+                    to: `${variableName}:${variableType}`
+                });
+            }
+
+        } else if (expr.$type === "VeriFastExpression" && expr.vffuncref?.$type === "VeriFastFunctionRef") {
+            console.log("VeriFastFunctionRef: ");
+
+            const receiverName = expr.vffuncref.args[0].loe.expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].exp[0].exp[0].pexp.ref.ref.ref.name;
+            console.log("receiverName: ", receiverName);
+            const receiverType = expr.vffuncref.vfstruct.$refText;
+            console.log("receiverType: ", receiverType);
+            console.log("nodes: ", nodes);
+
+            const nodeIndex = nodes.findIndex(n => n.name === receiverName);
+            if (nodeIndex >= 0) {
+                nodes[nodeIndex].type = receiverType;
+            } else {
+                // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
+                nodes.push({
+                    name: receiverName,
+                    type: receiverType,
+                    variables: {} // Initialisieren Sie 'variables' oder legen Sie es gemäß Ihren Anforderungen fest
+                });
+            }
+        }
+    });
+
+
+
+
+    return {
+        functionName: func.name,
+        visualization: {
+            links: links,
+            node: nodes
+        }
+    };
+});
+
+// Jetzt sollte visualizations die Strukturen für die Visualisierung enthalten
+console.log("visualizations: ", visualizations);
+
+
+}
+
+}, [ast]);
+*/
+
     useEffect(() => {
         if (ast.tdecl) {
-            /*
-            console.log("ast.tdecl[2]: ", ast.tdecl[2])
-            const generated = generateNodes(ast.tdecl[2]);
-            console.log("generate Nodes: ", generated)
-            //setElements([...generated.nodes, ...generated.edges]);
-            setNodes(generated.nodes)
-            setEdges(generated.edges)
-        *//*
-
-
             // Finde die Funktionsdeklaration
             const functionDeclarations = ast.tdecl.filter(node => node.$type === "FunctionDeclaration");
             // Erstelle die Visualisierungsobjekte für jede Funktion
             const visualizations = functionDeclarations.map(func => {
-                const links = [];
-                const nodes = [];
-
-                // Behandle sowohl die "requires" als auch die "ensures" Teile des Vertrags
-                const veriFastRequiresExpressions = func.ver;
-
-                veriFastRequiresExpressions.forEach(expr => {
-                    const node = {
-                        name: '',
-                        type: '',
-                        variables: {}
-                    };
-                    if (
-                        expr.$type === "VeriFastExpression" &&
-                        expr.vfstatement?.$type === "VeriFastStatement" &&
-                        expr.vfstatement.lexp?.$type === "ComponentArrowAccess"
-                    ) {
-
-                        console.log("VeriFastExpression: ", expr);
-                        const receiverRef = expr.vfstatement.lexp.receiver.ref.ref;
-                        console.log("receiverRef: ", receiverRef);
-                        const receiverName = receiverRef.$refText;
-                        console.log("receiverName: ", receiverName);
-                        const receiverType = receiverRef.ref.type?.structRef?.$refText;
-                        console.log("receiverType: ", receiverType);
-
-                        const componentArrow = expr.vfstatement.lexp.compArrow;
-                        console.log("componentArrow: ", componentArrow);
-                        const componentName = componentArrow.$refText;
-                        //console.log("componentName: ", componentName);
-                        const variableName = expr.vfstatement.vdecl.name;
-                        //console.log("variableName: ", variableName);
-                        const variableType = componentArrow.ref.tr.structRef?.$refText
-                        //console.log("variableType: ", variableType);
-
-                        // Bestimmen Sie den Typ der Komponente
-                        const componentType = componentArrow.ref.tr.$type; // "StructTypeRef" || "PredefinedTypeRef"
-                        //console.log("componentType: ", componentType);
+                // Funktion zur Handhabung von "requires" oder "ensures"
 
 
+                // "requires" Teil des Vertrags
+                //console.log("*****  verVisualization:  *****");
+                const verVisualization = createVisualization(func.ver);
+                //console.log("verVisualization:", verVisualization);
 
-                        if (componentType === "PredefinedTypeRef") {
-
-                            // Füllen Sie das Knotenobjekt aus
-                            console.log("receiverName: ", receiverName);
-                            node.name = receiverName;
-                            node.type = receiverType; // Hier können Sie den Typ festlegen, wenn Sie ihn kennen
-                            // Speichere die Verbindung zu einer primitiven Variable
-                            node.variables[componentName] = `${variableName}`;
-                            const nodeIndex = nodes.findIndex(n => n.name === receiverName);
-                            if (nodeIndex >= 0) {
-                                (receiverType !== undefined) ? nodes[nodeIndex].type = receiverType : {};
-                                node.variables[componentName] = `${variableName}`;
-                            } else {
-                                // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
-                                nodes.push(node);
-                            }
-                            nodes.push(node);
-
-                        } else if (componentType === "StructTypeRef") {
-                            // Speichere die Verbindungen wie bisher zu einer "node or null" Variable
-
-                            //node.variables[componentName] = `${variableName}`;
-
-                            links.push({
-                                from: `${receiverName}:${receiverType}`,
-                                linkName: componentName,
-                                to: `${variableName}:${variableType}`
-                            });
-                        }
-
-                    } else if (expr.$type === "VeriFastExpression" && expr.vffuncref?.$type === "VeriFastFunctionRef") {
-                        console.log("VeriFastFunctionRef: ");
-
-                        const receiverName = expr.vffuncref.args[0].loe.expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].expl[0].exp[0].exp[0].pexp.ref.ref.ref.name;
-                        console.log("receiverName: ", receiverName);
-                        const receiverType = expr.vffuncref.vfstruct.$refText;
-                        console.log("receiverType: ", receiverType);
-                        console.log("nodes: ", nodes);
-
-                        const nodeIndex = nodes.findIndex(n => n.name === receiverName);
-                        if (nodeIndex >= 0) {
-                            nodes[nodeIndex].type = receiverType;
-                        } else {
-                            // Wenn die Node nicht existiert, erstellen Sie sie und fügen Sie sie hinzu
-                            nodes.push({
-                                name: receiverName,
-                                type: receiverType,
-                                variables: {} // Initialisieren Sie 'variables' oder legen Sie es gemäß Ihren Anforderungen fest
-                            });
-                        }
-                    }
-                });
-
-
-
+                // "ensures" Teil des Vertrags (anpassen, wenn nötig)
+                //console.log("*****  veeVisualization:  *****");
+                const veeVisualization = createVisualization(func.vee);
+                //console.log("veeVisualization:", veeVisualization);
 
                 return {
                     functionName: func.name,
-                    visualization: {
-                        links: links,
-                        node: nodes
-                    }
+                    ver: verVisualization, // "requires" Visualisierung
+                    vee: veeVisualization  // "ensures" Visualisierung
                 };
             });
 
             // Jetzt sollte visualizations die Strukturen für die Visualisierung enthalten
-            console.log("visualizations: ", visualizations);
-
-
+            console.log("visualizations:", visualizations);
+            setData(visualizations);
+            setSelectedFunction(visualizations[0]?.functionName || null);
         }
-
     }, [ast]);
-*/
 
-useEffect(() => {
-    if (ast.tdecl) {
-      // Finde die Funktionsdeklaration
-      const functionDeclarations = ast.tdecl.filter(node => node.$type === "FunctionDeclaration");
-      // Erstelle die Visualisierungsobjekte für jede Funktion
-      const visualizations = functionDeclarations.map(func => {
-        // Funktion zur Handhabung von "requires" oder "ensures"
-       
+    const functionData = data.find(item => item.functionName === selectedFunction);
+ 
+    const flowData = useMemo(() => {
+        return selectedFunction ? convertToReactFlowFormat(functionData) : { nodes: [], edges: [] };
+    }, [selectedFunction, functionData]);
+
   
-        // "requires" Teil des Vertrags
-        //console.log("*****  verVisualization:  *****");
-        const verVisualization = createVisualization(func.ver);
-        //console.log("verVisualization:", verVisualization);
-  
-        // "ensures" Teil des Vertrags (anpassen, wenn nötig)
-        //console.log("*****  veeVisualization:  *****");
-        const veeVisualization = createVisualization(func.vee);
-        //console.log("veeVisualization:", veeVisualization);
-  
-        return {
-          functionName: func.name,
-          ver: verVisualization, // "requires" Visualisierung
-          vee: veeVisualization  // "ensures" Visualisierung
-        };
-      });
-  
-      // Jetzt sollte visualizations die Strukturen für die Visualisierung enthalten
-      console.log("visualizations:", visualizations);
-    }
-  }, [ast]);
-  
+
+    useEffect(() => {
+        console.log("flowData: ", flowData)
+        setNodes(flowData.nodes);
+        setEdges(flowData.edges)
+    }, [flowData]);
 
     const defaultEdgeOptions = {
         style: { strokeWidth: 3, stroke: 'black' },
@@ -363,10 +381,7 @@ useEffect(() => {
         [setEdges]
     );
 
-    const handleFunctionSelect = (e) => {
-        setSelectedNode(e.target.value);
-        setSelectedEdges(e.target.value);
-    };
+    const handleFunctionSelect = (e) => setSelectedFunction(e.target.value);
 
     useEffect(() => {
 
@@ -379,6 +394,13 @@ useEffect(() => {
             // Then update the Cytoscape canvas with the new AST data
         });
     }
+    function onLoad(reactFlowInstance) {
+        console.log('flow loaded:', reactFlowInstance.getElements());
+      }
+
+      function onError(event) {
+        console.log('An error occurred:', event);
+      }
 
 
     return (
@@ -443,26 +465,34 @@ useEffect(() => {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="second" >
                                     <div className={styles.rfTab}>
-                                        <select className={styles.nodeSelector} id="node-selector" onChange={handleFunctionSelect}>
-                                            {functionNames.map(name => <option key={name} value={name}>{name}()</option>)}
+                                        <select className={styles.nodeSelector} id="node-selector" value={selectedFunction || ''} onChange={handleFunctionSelect}>
+                                            {data.map(item => (
+                                                <option key={item.functionName} value={item.functionName}>
+                                                    {item.functionName}
+                                                </option>
+                                            ))}
                                         </select>
-
-                                        <ReactFlow
-                                            nodes={nodes}
-                                            edges={edges}
-                                            onNodesChange={onNodesChange}
-                                            onEdgesChange={onEdgesChange}
-                                            onConnect={onConnect}
-                                            defaultEdgeOptions={defaultEdgeOptions}
-                                            nodeTypes={nodeTypes}
-                                            fitView
-                                            style={rfStyle}
-                                            attributionPosition="top-right"
-                                        >
-                                            {/* <MiniMap /> */}
-                                            <Controls />
-                                            <Background />
-                                        </ReactFlow>
+                                        <div style={{ height: 800 }}>
+                                            <ReactFlow
+                                                //elements={flowData}
+                                                nodes={nodes}
+                                                edges={edges}
+                                                onLoad={onLoad}
+                                                onError={onError}
+                                                onNodesChange={onNodesChange}
+                                                onEdgesChange={onEdgesChange}
+                                                onConnect={onConnect}
+                                                //defaultEdgeOptions={defaultEdgeOptions}
+                                                nodeTypes={nodeTypes}
+                                                fitView
+                                                style={rfStyle}
+                                                attributionPosition="top-right"
+                                            >
+                                                {/* <MiniMap /> */}
+                                                <Controls />
+                                                <Background />
+                                            </ReactFlow>
+                                        </div>
                                     </div>
                                 </Tab.Pane>
                             </Tab.Content>
