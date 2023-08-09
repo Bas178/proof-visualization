@@ -26,7 +26,7 @@ import { convertToReactFlowFormat } from "./convertToReactFlowFormat"
 import { formatArgs } from "./formatArgs";
 
 const rfStyle = {
-    backgroundColor: 'white',
+    backgroundColor: '#dce1e0',
 };
 
 const nodeTypes = {

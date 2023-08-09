@@ -25,7 +25,20 @@ let cnt = 0;
                 });
             });
         }
+        if (node.isnull && !node.iscreated){
+            preNodes.push({
+                id: `${node.name}-nullpointer`,
+                data: { label: '⏊' },
+                type: 'circleNode',
+                draggable: false,
+                position: { x: 120, y: 0 },
+                style: { width: 20, height: 20 },
+                parentNode: node.name,
+                extent: 'parent'
+            });
+        }
     });
+   
 
     let preEdges = functionData.ver.links.map(link => ({
         id: `${link.from}-${link.to}`,
@@ -58,6 +71,19 @@ let cnt = 0;
                 });
             });
         }
+        if (node.isnull && !node.iscreated){
+            postNodes.push({
+                id: `${node.name}-nullpointer`,
+                data: { label: '⏊' },
+                type: 'circleNode',
+                draggable: false,
+                position: { x: 120, y: 0 },
+                style: { width: 20, height: 20 },
+                parentNode: node.name,
+                extent: 'parent'
+            });
+        }
+       
     });
 
     let postEdges = functionData.vee.links.map(link => ({
@@ -116,5 +142,100 @@ edges = edges.reduce((uniqueEdges, edge) => {
     return uniqueEdges;
 }, []);
 
+
+// constraints
+let y = 0;
+functionData.ver.constraints.forEach(constraint => {
+    // Note the order, Parent Node must appear before Child Node in the list!
+    const existingConstraintsNode = nodes.find(requireNode => requireNode.id === 'constraints');
+    if (!existingConstraintsNode) {
+        nodes.push({ 
+            id: 'constraints', 
+            type: 'objectNode', 
+            data: { label: '<<constraints>>' , backgroundColor: 'yellow',borderStyle : '1px solid black'}, 
+            position: { x: 500, y: 0 }, 
+            style: { backgroundColor: 'yellow', 
+            width: 220, 
+            height: 200, 
+            border: '1px solid black', 
+            borderRadius: '5px' }, },)
+        
+    }
+    const existingRequireNode = nodes.find(requireNode => requireNode.id === 'requires');
+    if (!existingRequireNode) {
+        nodes.push({ 
+            id: 'requires', 
+            type: 'objectNode', 
+            data: { label: '<<requires>>' , backgroundColor: 'yellow',borderStyle : '1px solid black'}, 
+            position: { x: 10, y: 75 }, 
+            parentNode: 'constraints', 
+            extent: 'parent', 
+            style: { backgroundColor: 'yellow', width: 200, height: 100, border: '1px solid black', 
+            borderRadius: '5px' }, },)
+        
+    }
+    nodes.push({
+        id: `ver-${constraint}`,
+        data: { label: constraint },
+        type: 'objectNode',
+        draggable: false,
+        position: { x: 20, y: y + 50 },
+        style: {  },
+        parentNode: 'requires',
+        extent: 'parent'
+    });
+  
+    
+    y += 25
+});
+y = 0;
+functionData.vee.constraints.forEach(constraint => {
+    // Note the order, Parent Node must appear before Child Node in the list!
+    const existingConstraintsNode = nodes.find(requireNode => requireNode.id === 'constraints');
+    if (!existingConstraintsNode) {
+        nodes.push({ 
+            id: 'constraints', 
+            type: 'objectNode', 
+            data: { label: '<<constraints>>' , backgroundColor: 'yellow',borderStyle : '1px solid black'}, 
+            position: { x: 500, y: 0 }, 
+            style: { backgroundColor: 'yellow', 
+            width: 220, 
+            height: 200, 
+            border: '1px solid black', 
+            borderRadius: '5px' }, },)
+        
+    }
+    const existingRequireNode = nodes.find(requireNode => requireNode.id === 'ensures');
+    if (!existingRequireNode) {
+        nodes.push({ 
+            id: 'ensures', 
+            type: 'objectNode', 
+            data: { label: '<<ensures>>' , backgroundColor: 'yellow',borderStyle : '1px solid black'}, 
+            position: { x: 10, y: 150 }, 
+            parentNode: 'constraints', 
+            extent: 'parent', 
+            style: { backgroundColor: 'yellow', width: 200, height: 100, border: '1px solid black', 
+            borderRadius: '5px' }, },)
+        
+    }
+    nodes.push({
+        id: `vee-${constraint}`,
+        data: { label: constraint },
+        type: 'objectNode',
+        draggable: false,
+        position: { x: 20, y: y + 50 },
+        style: {  },
+        parentNode: 'ensures',
+        extent: 'parent'
+    });
+  
+    
+    y += 25
+});
+
+
+//{ id: 'constraints', type: 'objectNode', data: { label: '<<constraints>>' , backgroundColor: 'yellow',borderStyle : '1px solid black'}, position: { x: 500, y: 0 }, style: { backgroundColor: 'yellow', width: 220, height: 200, border: '1px solid black', borderRadius: '5px' }, },
+//    { id: 'requires', type: 'objectNode', data: { label: '<<requires>>' , backgroundColor: 'yellow',borderStyle : '1px solid black'}, position: { x: 10, y: 75 }, parentNode: 'constraints', extent: 'parent', style: { backgroundColor: 'yellow', width: 200, height: 100, border: '1px solid black', borderRadius: '5px' }, },
+//    { id: 'requires-var', type: 'objectNode', data: { label: '?c < INT_MAX' }, position: { x: 20, y: 50 }, parentNode: 'requires', extent: 'parent', style: { backgroundColor: '', }, },
 return { nodes, edges };
 }
