@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Docker setup
+These commands will help you set up this project with Docker:
+* `docker compose up`
+* [http://localhost:3000/](http://localhost:3000/)
+
 ## Getting Started
 
 First, run the development server:
