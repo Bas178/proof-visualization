@@ -1,26 +1,74 @@
-## https://hub.docker.com/_/node
-FROM node:20.5-alpine3.17@sha256:c8ae1785da54b802347d06e826d5ae127fc7851114803ee4098f782d46ba40a9
-USER node
-WORKDIR /home/node/proof-visualization
-ARG NODE_ENV=production
+FROM node:20.5-alpine3.17@sha256:c8ae1785da54b802347d06e826d5ae127fc7851114803ee4098f782d46ba40a9 AS base
 
-COPY --chown=node:node package.json package-lock.json ./
-RUN npm install --only=production --loglevel verbose
+# Step 1. Rebuild the source code only when needed
+FROM base AS builder
 
-COPY --chown=node:node app/ app/
-COPY --chown=node:node util/ util/
-COPY --chown=node:node .eslintrc.json jsconfig.json next.config.js ./
-RUN npm run build
+WORKDIR /app
 
-## ToDo: Check if these files are still needed
-# COPY --chown=node:node public/ public/
-# COPY --chown=node:node sbgnStyle/ sbgnStyle/
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+# Omit --production flag for TypeScript devDependencies
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
+  # Allow install without lockfile, so example works even without Node.js installed locally
+  else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control." && yarn install; \
+  fi
 
-## adding init, to handle signals
-## docs: https://engineeringblog.yelp.com/2016/01/dumb-init-an-init-for-docker.html
-## ToDo: Add code to app, to handle SIGTERM and remove this script below
-RUN wget -O /home/node/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64
-RUN chmod +x /home/node/dumb-init
+COPY app ./app
+COPY public ./public
+COPY util ./util
+COPY next.config.js .
+COPY jsconfig.json .
 
-EXPOSE 3000
-CMD [ "/home/node/dumb-init", "npm", "run", "start", "--verbose" ]
+# Environment variables must be present at build time
+# https://github.com/vercel/next.js/discussions/14030
+ARG ENV_VARIABLE
+ENV ENV_VARIABLE=${ENV_VARIABLE}
+ARG NEXT_PUBLIC_ENV_VARIABLE
+ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
+
+# Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line to disable telemetry at build time
+# ENV NEXT_TELEMETRY_DISABLED 1
+
+# Build Next.js based on the preferred package manager
+RUN \
+  if [ -f yarn.lock ]; then yarn build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then pnpm build; \
+  else yarn build; \
+  fi
+
+# Note: It is not necessary to add an intermediate step that does a full copy of `node_modules` here
+
+# Step 2. Production image, copy all the files and run next
+FROM base AS runner
+
+WORKDIR /app
+
+# Don't run production as root
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
+
+COPY --from=builder /app/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Environment variables must be redefined at run time
+ARG ENV_VARIABLE
+ENV ENV_VARIABLE=${ENV_VARIABLE}
+ARG NEXT_PUBLIC_ENV_VARIABLE
+ENV NEXT_PUBLIC_ENV_VARIABLE=${NEXT_PUBLIC_ENV_VARIABLE}
+
+# Uncomment the following line to disable telemetry at run time
+# ENV NEXT_TELEMETRY_DISABLED 1
+
+# Note: Don't expose ports here, Compose will handle that for us
+
+CMD ["node", "server.js"]
