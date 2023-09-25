@@ -3,6 +3,7 @@ import { MonacoEditorLanguageClientWrapper } from '@/public/monaco-editor-wrappe
 import { buildWorkerDefinition } from "@/public/monaco-editor-workers/index.js";
 import monarchSyntax from "@/public/syntaxes/c-parser-3.monarch.js";
 import { vscode } from '@/public/monaco-editor-wrapper/index.js';
+import { defaultCode } from '@/util/defaultCode';
 
 function MonacoEditor() {
   useEffect(() => {
@@ -12,7 +13,7 @@ function MonacoEditor() {
     const editorConfig = client.getEditorConfig();
     editorConfig.setMainLanguageId('c-parser-3');
     editorConfig.setMonarchTokensProvider(monarchSyntax);
-    editorConfig.setMainCode(`// c-parser3 is running in the web!`);
+    editorConfig.setMainCode(defaultCode);
     editorConfig.theme = 'vs-dark';
     editorConfig.useLanguageClient = true;
     editorConfig.useWebSocket = false;

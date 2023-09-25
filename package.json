@@ -13,6 +13,7 @@
     "bootstrap": "^5.2.3",
     "cytoscape": "^3.24.0",
     "cytoscape-sbgn-stylesheet": "^4.0.2",
+    "dagre": "^0.8.5",
     "eslint": "8.39.0",
     "eslint-config-next": "13.4.1",
     "next": "13.4.1",

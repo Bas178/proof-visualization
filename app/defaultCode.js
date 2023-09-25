@@ -1,8 +1,6 @@
 export const defaultCode = 
 `
 // Enter your C code with Verifast annotations here...
-#include "stdlib.h"
-#include "assert.h"
         
 struct node {
     int value;
@@ -54,12 +52,12 @@ int pop(struct stack *s)
 {
     struct node *h = s->head;
             
-    int result = h->value;
+    int res = h->value;
     s->head = h->next;
     s->cnt = s->cnt-1;
     free(h);
            
-    return result;
+    return res;
 }
         
 void dispose(struct stack *s)
