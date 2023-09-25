@@ -18,6 +18,7 @@ import ObjectNode from "@/util/objectNode";
 
 import '@/util/node.css'
 import ValueNode from "@/util/valueNode";
+import Navibar from "../navBar";
 
 const rfStyle = {
   backgroundColor: '#eeeeee',
@@ -110,27 +111,7 @@ export default function Reactflow() {
   return (
     <div>
 
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">ProofVisualization</a>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="#">Documentation</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Showcase</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Playground</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">GitLab</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <Navibar />
 
       <div className={styles.runButtonContainer}>
         <button className={styles.runButton}>Run</button>
