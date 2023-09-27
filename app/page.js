@@ -347,7 +347,7 @@ export default function Prototype() {
 
                     <div id="editor" className={styles.editor} >
 
-                        <iframe src="/proof-visualization/index.html" width="100%" height="100%"></iframe>
+                        <iframe src="/proofvisualization/index.html" width="100%" height="100%"></iframe>
 
                     </div>
 
