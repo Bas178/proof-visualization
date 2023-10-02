@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 These commands will help you set up this project with Docker:
 * `docker compose run --rm app-proof npm install -y`
 * `docker compose up`
-* [http://localhost:3000/proof-visualization/](http://localhost:3000/proof-visualization)
+* [http://localhost:3000/proofvisualization/](http://localhost:3000/proofvisualization)
 
 ## Getting Started
 
