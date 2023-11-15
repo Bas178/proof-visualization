@@ -18,6 +18,11 @@ function Navibar() {
                 <a className="nav-link" href="#">GitLab</a>
               </li>
             </ul>
+            <ul className="navbar-nav ms-auto"> {/* Added this ul for right-aligned items */}
+              <li className="nav-item">
+                <span className="nav-link">v1.0.4</span> {/* Display version here */}
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
